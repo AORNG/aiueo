@@ -21,4 +21,4 @@ comments={
 if user_name:
     st.write(f"結果:{result}")
 
-    st.write(comments[result]")
+    st.write(comments[result])
