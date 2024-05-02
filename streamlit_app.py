@@ -19,6 +19,8 @@ comments={
 
 #結果とコメントの表示
 if user_name:
-    st.write(f"結果:{result}")
+    st.write(f"{user_name}さんの結果:{result}")
 else:
-    st.write(comments[result])
+    st.write(f"結果:{result}")
+
+st.write(comments[result])
