@@ -14,7 +14,7 @@ st.text("身長を入力してください")
 
 long=st.number_input("身長を入力")
 
-st.write("あなたの身長は"+str(weight+"cmです"))
+st.write("あなたの身長は"+str(weight)+"cmです")
 b=long+10
 
 st.write(str(b)+"cmを目指しましょう")
