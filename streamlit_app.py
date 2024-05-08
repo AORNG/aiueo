@@ -18,3 +18,5 @@ st.write("あなたの身長は"+str(weight)+"cmです")
 b=long+10
 
 st.write(str(b)+"cmを目指しましょう")
+a=weight/long**2
+st.text(a)
