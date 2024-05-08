@@ -18,7 +18,7 @@ st.write("あなたの身長は"+str(weight)+"mです")
 b=long+0.1
 
 st.write(str(b)+"mを目指しましょう")
-if st.button("計算")
+if st.button("計算");
 
 a=weight/long**2
 st.text(a)
