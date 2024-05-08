@@ -19,6 +19,5 @@ b=long+0.1
 
 st.write(str(b)+"mを目指しましょう")
 if st.button("計算"):
-
-c=weight/long**2
-st.text(c)
+    c=weight/long**2
+    st.text(c)
