@@ -1,4 +1,4 @@
 import streamlit as st
-import random
-st.title("BMIアプリ")
-st.text("あなたの体重を入力してください。")
+st.title("BMI計算アプリ")
+st.text("体重を入力してください")
+weight=st.number_input("体重を入力")
