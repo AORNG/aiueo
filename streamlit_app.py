@@ -5,4 +5,4 @@ st.text("このガチャを通して、生物について学ぼう！")
 
 if st.button("Enter"):
     if st.button("o"):
-       
+        st.text("rere")
