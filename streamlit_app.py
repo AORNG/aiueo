@@ -9,14 +9,7 @@ h1 {
     color: #00CED1; /* タイトルの文字色を赤に変更 */
 }
 """
-css = """
-h1 {
-    font-family: 'Arial', sans-serif; /* タイトルのフォントをArialに変更 */
-}
-"""
 
-# CSSを適用する
-st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 # CSSを適用する
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
