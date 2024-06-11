@@ -39,4 +39,7 @@ if 'selected_word' in st.session_state:
 
     # 説明を確認するボタンを追加
     if st.button('説明を確認する'):
+        st.session_state.display_meaning = True
+
+    if st.session_state.display_meaning:
         st.write(f"説明: {st.session_state.selected_word['説明']}")
