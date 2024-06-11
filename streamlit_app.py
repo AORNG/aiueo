@@ -4,7 +4,7 @@ import numpy as np
 import streamlit as st
 
 # Montserratフォントを使ったタイトルを表示
-st.markdown("<h1 style='text-align: center; font-family: open suns, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
 
 st.write('生物用語をランダムに表示して、勉強をサポートします！')
 st.write('がんばってください！')
