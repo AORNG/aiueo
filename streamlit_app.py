@@ -6,7 +6,7 @@ import numpy as np
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
 css = """
 h1 {
-    color: greenblue; /* タイトルの文字色を赤に変更 */
+    color: #2E8B57; /* タイトルの文字色を赤に変更 */
 }
 """
 
