@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import streamlit as st
+
+# Montserratフォントを使ったタイトルを表示
+st.markdown("<h1 style='text-align: center; font-family: Montserrat, sans-serif;'>これはおしゃれなタイトルです。</h1>", unsafe_allow_html=True)
 
 
 st.set_page_config(page_title="生物用語ガチャ")
