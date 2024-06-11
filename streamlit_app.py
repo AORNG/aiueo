@@ -6,11 +6,6 @@ import streamlit as st
 # Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Montserrat, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
 
-
-st.set_page_config(page_title="生物用語ガチャ")
-
-
-
 st.write('生物用語をランダムに表示して、勉強をサポートします！')
 st.write('がんばってください！')
 
