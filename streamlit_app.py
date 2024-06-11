@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+font = ("Arial", 20)
 
 st.set_page_config(page_title="生物用語ガチャ")
 
