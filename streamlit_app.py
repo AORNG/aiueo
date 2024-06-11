@@ -12,10 +12,10 @@ st.write('がんばってください！')
 
 # Load the data
 @st.cache
-def a():
-    return pd.read_excel("科学部情報班 生物ガチャ.xlsx")
+def load_data():
+    return pd.read_excel("aa.xlsx")
 
-words_df = a()
+words_df = load_data()
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
