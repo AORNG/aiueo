@@ -4,7 +4,14 @@ import numpy as np
 
 # Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
+css = """
+h1 {
+    color: red; /* タイトルの文字色を赤に変更 */
+}
+"""
 
+# CSSを適用する
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 st.write('生物用語をランダムに表示して、勉強をサポートします！')
 st.write('がんばってください！')
 
