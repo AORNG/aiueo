@@ -17,7 +17,7 @@ st.write('生物用語をランダムに表示して、勉強をサポートし�
 st.write('がんばってください！')
 
 # Load the data
-@st.cache
+@st.cache_resource
 def load_data():
     return pd.read_excel("生物ガチャ.xlsx")
 
