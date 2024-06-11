@@ -1,15 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-css = """
-h1 {
-    font-family: 'Montserrat', sans-serif;
-    color: #333333;
-}
-"""
 
-# CSSを適用する
-st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 st.set_page_config(page_title="生物用語ガチャ")
 
