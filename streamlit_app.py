@@ -51,6 +51,7 @@ if 'selected_word' in st.session_state:
 
         # 入力された解答を表示
         st.write("入力された解答:",a)
+        a==""
 
         b = st.session_state.selected_word['単語']
 
