@@ -47,6 +47,7 @@ if 'selected_word' in st.session_state:
 
         # テキストボックスを表示してユーザーに解答を入力させる
         a = st.text_input("解答を入力してください")
+        error_message = st.empty()
 
         # 入力された解答を表示
         st.write("入力された解答:",a)
@@ -56,8 +57,9 @@ if 'selected_word' in st.session_state:
         if a:
             if a == b:
                 st.success("正解")
+                error_message.empty()
             else:
-                st.error("不正解。正解は"+b+"でした。")
+                error_message.error("不正解。正解は"+b+"でした。")
                 
        
 
