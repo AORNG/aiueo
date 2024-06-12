@@ -45,16 +45,17 @@ if 'selected_word' in st.session_state:
         st.title("解答入力")
 
         # テキストボックスを表示してユーザーに解答を入力させる
-        a = st.text_input("解答を入力してください")
+        aa = st.text_input("解答を入力してください")
 
         # 入力された解答を表示
-        st.write("入力された解答:", a)
+        st.write("入力された解答:",aa)
 
     if __name__ == "__main__":
         main()
-
-        if a == selected_word['単語']:
-            print("正解")
+        if aa:
+            if aa == selected_word['単語']:
+            
+                st.success("正解")
 
 
 
