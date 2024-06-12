@@ -50,6 +50,9 @@ if 'selected_word' in st.session_state:
         # 入力された解答を表示
         st.write("入力された解答:", a)
 
+    if __name__ == "__main__":
+        main()
+
         if a == selected_word['単語']:
             print("正解")
 
@@ -70,12 +73,5 @@ if 'selected_word' in st.session_state:
 
 
 
-
-    st.header(f"単語名: {st.session_state.selected_word['単語']}")
-    st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
-
-    # 説明を確認するボタンを追加
-    if st.button('説明を確認する'):
-        st.session_state.display_meaning = True
 
     
