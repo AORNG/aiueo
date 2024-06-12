@@ -40,6 +40,7 @@ if st.button('ガチャを引く！'):
     st.session_state.display_meaning = False
 
 if 'selected_word' in st.session_state:
+    st.write(f"説明: {st.session_state.selected_word['説明']}")
     st.header(f"単語名: {st.session_state.selected_word['単語']}")
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
@@ -47,5 +48,4 @@ if 'selected_word' in st.session_state:
     if st.button('説明を確認する'):
         st.session_state.display_meaning = True
 
-    if st.session_state.display_meaning:
-        st.write(f"説明: {st.session_state.selected_word['説明']}")
+    
