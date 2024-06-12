@@ -57,6 +57,7 @@ if 'selected_word' in st.session_state:
             if 'selected_word' in st.session_state:
                 if st.button('解答の表示'):
                     st.header(f"単語名: {st.session_state.selected_word['単語']}")
-            st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
+                if st.button('レア度の表示')
+                st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
     
