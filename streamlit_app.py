@@ -45,8 +45,13 @@ if 'selected_word' in st.session_state:
     def main():
         st.title("解答入力")
 
-        # テキストボックスを表示してユーザーに解答を入力させる
+        # 解答の入力欄とクリアボタンを表示するカラムを作成
+    col1, col2 = st.columns([4, 1])
+    with col1:
         a = st.text_input("解答を入力してください")
+    with col2:
+        if st.button("クリア"):
+            a = ""
 
         # 入力された解答を表示
         st.write("入力された解答:",a)
