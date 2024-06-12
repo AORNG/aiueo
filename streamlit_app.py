@@ -25,6 +25,8 @@ words_df = load_data()
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
+    a=()
+    b=()
     rarity_probs = {
         'N': 0.4,
         'R': 0.3,
