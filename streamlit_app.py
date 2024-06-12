@@ -54,11 +54,13 @@ if 'selected_word' in st.session_state:
 
         b = st.session_state.selected_word['単語']
 
-        if a:
-            if a == b:
+        if not a:
+            # 解答が入力されていない場合はエラーメッセージを表示
+            error_message.error("解答を入力してください")
+        elif a == b:
                 st.success("正解")
                 error_message.empty()
-            else:
+        else:
                 error_message.error("不正解。正解は"+b+"でした。")
                 
        
