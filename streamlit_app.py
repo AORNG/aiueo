@@ -42,9 +42,6 @@ if st.button('ガチャを引く！'):
 if 'selected_word' in st.session_state:
     st.header(f"単語名: {st.session_state.selected_word['単語']}")
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
-    def main():
-
-
 
     # 説明を確認するボタンを追加
     if st.button('説明を確認する'):
@@ -52,14 +49,3 @@ if 'selected_word' in st.session_state:
 
     if st.session_state.display_meaning:
         st.write(f"説明: {st.session_state.selected_word['説明']}")
-    def main():
-    st.title("解答入力")
-
-    # テキストボックスを表示してユーザーに解答を入力させる
-    answer = st.text_input("解答を入力してください")
-
-    # 入力された解答を表示
-    st.write("入力された解答:", answer)
-
-if __name__ == "__main__":
-    main()
