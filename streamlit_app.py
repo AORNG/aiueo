@@ -52,8 +52,9 @@ if 'selected_word' in st.session_state:
 
         b = st.session_state.selected_word['単語']
 
-        if a==b:
-            print("正解")
+        if a:
+            if a == b:
+                st.success("正解")
 
     if __name__ == "__main__":
         main()
