@@ -41,6 +41,36 @@ if st.button('ガチャを引く！'):
 
 if 'selected_word' in st.session_state:
     st.title(f"Q: {st.session_state.selected_word['説明']}")
+    def main():
+        st.title("解答入力")
+
+        # テキストボックスを表示してユーザーに解答を入力させる
+        A = st.text_input("解答を入力してください")
+
+        # 入力された解答を表示
+        st.write("入力された解答:", A)
+
+    if __name__ == "__main__":
+        main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     st.header(f"単語名: {st.session_state.selected_word['単語']}")
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
