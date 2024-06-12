@@ -56,6 +56,8 @@ if 'selected_word' in st.session_state:
             if a == b:
                 st.success("正解")
 
+                st.error("不正解。正解は"+b+"でした。")
+
     if __name__ == "__main__":
         main()
         
