@@ -56,7 +56,7 @@ if 'selected_word' in st.session_state:
         if __name__ == "__main__":
             main()
 
-    st.header(f"単語名: {st.session_state.selected_word['単語']}")
-    st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
+            st.header(f"単語名: {st.session_state.selected_word['単語']}")
+            st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
     
