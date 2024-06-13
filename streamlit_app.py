@@ -42,28 +42,21 @@ if st.button('ガチャを引く！'):
 
 if 'selected_word' in st.session_state:
     st.title(f"Q: {st.session_state.selected_word['説明']}")
-    def main():
-        st.title("解答入力")
-        a = st.text_area("解答欄")
-        # テキストボックスを表示してユーザーに解答を入力させる
-        error_message = st.empty()
+    # 解答欄を作成
+    user_answer = st.text_input("解答を入力してください")
 
-        # 入力された解答を表示
-        st.write("入力された解答:",a)
-        a==""
+    # 答え合わせボタン
+    if st.button("答え合わせ"):
+        correct_answer = 4  # 正解を定義
 
-        b = st.session_state.selected_word['単語']
-
-        if not a:
-            # 解答が入力されていない場合はエラーメッセージを表示
-            error_message.error("解答を入力してください")
-        elif a == b:
-                st.success("正解")
-                error_message.empty()
+        # 解答が正しいかどうかを確認し、結果を表示
+        if user_answer.strip() == str(correct_answer):
+            st.write("正解です！")
         else:
-                error_message.error("不正解。正解は"+b+"でした。")
-                
-       
+            st.write("不正解です。正しい答えは", correct_answer, "です。")
+
+        # 問題と解答をリセット
+        user_answer = ""
 
     if __name__ == "__main__":
         main()
