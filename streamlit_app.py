@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import openpyxl
 import random
 
 # Montserratフォントを使ったタイトルを表示
@@ -47,8 +46,9 @@ if 'selected_word' in st.session_state:
     correct_answer = st.session_state.selected_word['単語']
     wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
 
-    # 正解を含む選択肢をランダムに選ぶ
+    # 正解を含む選択肢を選び、その順番をランダムにする
     options = random.sample([correct_answer] + wrong_answers, 4)
+    random.shuffle(options)
 
     # 選択肢をセッションステートに保存
     st.session_state.options = options
