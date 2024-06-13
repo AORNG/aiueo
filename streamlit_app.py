@@ -46,9 +46,8 @@ if 'selected_word' in st.session_state:
     wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
 
     # 選択された単語に基づいて間違いの単語を選ぶ
-    # ただし、これは固定の順序で選択されます
-    random.shuffle(wrong_answers)
-    options = wrong_answers[:3] + [correct_answer]
+    options = random.sample(wrong_answers, 3)
+    options.append(correct_answer)
 
     # 選択肢をセッションステートに保存
     st.session_state.options = options
