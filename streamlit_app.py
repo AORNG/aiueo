@@ -48,6 +48,9 @@ if 'selected_word' in st.session_state:
     wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
     options = [correct_answer] + random.sample(wrong_answers, min(3, len(wrong_answers)))
 
+    # 選択肢をランダムに並び替え
+    random.shuffle(options)
+
     # 解答選択肢を表示
     user_answer = st.radio("解答を選択してください", options)
 
