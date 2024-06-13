@@ -53,11 +53,8 @@ if 'selected_word' in st.session_state:
     # 選択肢をセッションステートに保存
     st.session_state.options = options
 
-    # 選択肢の並び順をシャッフルして固定する
-    random.shuffle(options)
-
     # 解答選択肢を表示
-    user_answer = st.radio("解答を選択してください", options)
+    user_answer = st.radio("解答を選択してください", options, index=None, key=None)
 
     # 答え合わせボタン
     if st.button("答え合わせ"):
