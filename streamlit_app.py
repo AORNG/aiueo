@@ -57,9 +57,8 @@ if 'selected_word' in st.session_state:
         else:
             st.write("不正解です。正しい答えは", correct_answer, "です。")
 
-        # 問題と解答をリセット
-        user_answer = ""
-        result_placeholder.empty()  # 結果表示用のコンポーネントを空にする
+        # 解答合わせの結果を表示した後に、表示を消す
+        st.empty()
 
     if __name__ == "__main__":
         main()
