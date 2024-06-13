@@ -36,7 +36,7 @@ if st.button('ガチャを引く！'):
     subset_df = words_df[words_df['レア度'] == chosen_rarity]
     selected_word = subset_df.sample().iloc[0]
     
-    # セッションステートに選択された単語を保存
+    # セッションステートに選択された単語と選択肢を保存
     st.session_state.selected_word = selected_word
     st.session_state.display_meaning = False
 
@@ -47,8 +47,12 @@ if 'selected_word' in st.session_state:
     correct_answer = st.session_state.selected_word['単語']
     wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
 
-    # 選択肢をランダムに並び替え
-    options = random.sample([correct_answer] + wrong_answers, 4)
+    # 選択肢をセッションステートから取得し、なければランダムに選ぶ
+    if 'options' in st.session_state:
+        options = st.session_state.options
+    else:
+        options = random.sample([correct_answer] + wrong_answers, 4)
+        st.session_state.options = options
 
     # 解答選択肢を表示
     user_answer = st.radio("解答を選択してください", options)
