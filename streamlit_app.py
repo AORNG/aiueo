@@ -57,7 +57,7 @@ if 'selected_word' in st.session_state:
             st.write("不正解です。正しい答えは", correct_answer, "です。")
 
         # 問題と解答をリセット
-        user_answer = ""
+        user_answer = st.text_input("")
 
     if __name__ == "__main__":
         main()
