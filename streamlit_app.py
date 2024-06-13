@@ -45,11 +45,8 @@ if 'selected_word' in st.session_state:
     correct_answer = st.session_state.selected_word['単語']
     wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
 
-    # 選択された単語に基づいて間違いの単語を選ぶ
-    options = random.sample(wrong_answers, 3)
-    options.append(correct_answer)
-
-    # 選択肢をセッションステートに保存
+    # 正解を含む選択肢をセッションステートに保存
+    options = wrong_answers + [correct_answer]
     st.session_state.options = options
 
     # 解答選択肢を表示
@@ -57,8 +54,12 @@ if 'selected_word' in st.session_state:
 
     # 答え合わせボタン
     if st.button("答え合わせ"):
-        # 解答が正しいかどうかを確認し、結果を表示
-        if user_answer.strip() == str(correct_answer):
+        # 選択肢をシャッフルして、選択された項目のインデックスを取得
+        random.shuffle(options)
+        selected_index = options.index(user_answer)
+
+        # 正解が最後の要素にあるかどうかを確認し、結果を表示
+        if selected_index == len(options) - 1:
             st.write("正解です！")
         else:
             st.write("不正解です。正しい答えは", correct_answer, "です。")
