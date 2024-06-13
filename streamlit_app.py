@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import openpyxl
+import random
 
 # Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
@@ -42,8 +43,11 @@ if st.button('ガチャを引く！'):
 if 'selected_word' in st.session_state:
     st.title(f"Q: {st.session_state.selected_word['説明']}")
 
-    # 解答選択肢を作成
+    # 解答選択肢をランダムに並び替え
     answer_options = [st.session_state.selected_word['単語']] + list(words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'])
+    random.shuffle(answer_options)
+
+    # 解答選択肢を表示
     user_answer = st.selectbox("解答を選択してください", answer_options)
 
     # 答え合わせボタン
