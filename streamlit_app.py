@@ -25,7 +25,6 @@ words_df = load_data()
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
-    a = st.text_area("解答欄")
     a=""
     rarity_probs = {
         'N': 0.4,
@@ -45,9 +44,8 @@ if 'selected_word' in st.session_state:
     st.title(f"Q: {st.session_state.selected_word['説明']}")
     def main():
         st.title("解答入力")
-
+        a = st.text_area("解答欄")
         # テキストボックスを表示してユーザーに解答を入力させる
-        a = st.text_input("解答を入力してください")
         error_message = st.empty()
 
         # 入力された解答を表示
