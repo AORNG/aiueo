@@ -46,13 +46,15 @@ if 'selected_word' in st.session_state:
     correct_answer = st.session_state.selected_word['単語']
     wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
 
-    # 正解を含む選択肢をランダムに選び、その順番をランダムにする
+    # 正解を含む選択肢をランダムに選び、その順番を固定する
     options = random.sample(wrong_answers, 3)
     options.append(correct_answer)
-    random.shuffle(options)
 
     # 選択肢をセッションステートに保存
     st.session_state.options = options
+
+    # 選択肢の並び順をシャッフルして固定する
+    random.shuffle(options)
 
     # 解答選択肢を表示
     user_answer = st.radio("解答を選択してください", options)
