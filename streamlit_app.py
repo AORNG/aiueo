@@ -47,7 +47,7 @@ if 'selected_word' in st.session_state:
 
     # 答え合わせボタン
     if st.button("答え合わせ"):
-        correct_answer = 4  # 正解を定義
+        correct_answer = st.session_state.selected_word['単語']   # 正解を定義
 
         # 解答が正しいかどうかを確認し、結果を表示
         if user_answer.strip() == str(correct_answer):
