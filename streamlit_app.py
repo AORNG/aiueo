@@ -54,6 +54,3 @@ if 'selected_word' in st.session_state:
         else:
             st.write("不正解です。正しい答えは", correct_answer, "です。")
 
-if st.button("ガチャを引き直す"):
-    del st.session_state.selected_word
-    del st.session_state.display_meaning
