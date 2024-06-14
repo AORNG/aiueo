@@ -24,7 +24,7 @@ def load_data():
 words_df = load_data()
 
 # ガチャ機能
-if st.button('ガチャを引く！',align='center'):
+if st.button('ガチャを引く！', key='gacha_button', align='center'):
     rarity_probs = {
         'N': 0.4,
         'R': 0.3,
