@@ -45,13 +45,23 @@ if st.button('ガチャを引く！'):
         correct_answer = st.session_state.selected_word['単語']
         wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
 
-        # 解答選択肢を表示
-        user_answer = st.radio("解答を選択してください", [correct_answer] + wrong_answers)
+        # 正解を含む選択肢をランダムに選ぶ
+        options = random.sample(wrong_answers, 3) + [correct_answer]
 
-        # 答え合わせボタン
-        if st.button("答え合わせ"):
-            # 解答が正しいかどうかを確認し、結果を表示
-            if user_answer.strip() == str(correct_answer):
-                st.write("正解です！")
-            else:
-                st.write("不正解です。正しい答えは", correct_answer, "です。")
+        # 選択肢をシャッフル
+        random.shuffle(options)
+
+        # 解答選択肢を表示
+        user_answer = st.radio("解答を選択してください", options)
+
+    # 答え合わせボタン
+    if st.button("答え合わせ"):
+        # 解答が正しいかどうかを確認し、結果を表示
+        if user_answer.strip() == str(correct_answer):
+            st.write("正解です！")
+        else:
+            st.write("不正解です。正しい答えは", correct_answer, "です。")
+
+        # 正解と解答を表示
+        st.write(f"正しい答え: {correct_answer}")
+        st.write(f"あなたの答え: {user_answer}")
