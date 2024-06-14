@@ -63,4 +63,4 @@ if 'selected_word' in st.session_state:
             st.success("正解です！")
         else:
             st.error("不正解です。")
-        st.write(f"正解は {st.session_state.correct_answer}")
+            st.write(f"正解は {st.session_state.correct_answer}")
