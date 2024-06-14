@@ -38,26 +38,26 @@ if st.button('ガチャを引く！'):
     # セッションステートに選択された単語を保存
     st.session_state.selected_word = selected_word
 
-if 'selected_word' in st.session_state:
-    st.title(f"Q: {st.session_state.selected_word['説明']}")
+    if 'selected_word' in st.session_state:
+        st.title(f"Q: {st.session_state.selected_word['説明']}")
 
-    # 正解と誤答を取得
-    correct_answer = st.session_state.selected_word['単語']
-    wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
+        # 正解と誤答を取得
+        correct_answer = st.session_state.selected_word['単語']
+        wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
 
-    # 正解を含む選択肢をランダムに選ぶ
-    options = random.sample(wrong_answers, 3) + [correct_answer]
+        # 正解を含む選択肢をランダムに選ぶ
+        options = random.sample(wrong_answers, 3) + [correct_answer]
 
-    # 選択肢をシャッフル
-    random.shuffle(options)
+        # 選択肢をシャッフル
+        random.shuffle(options)
 
-    # 解答選択肢を表示
-    user_answer = st.radio("解答を選択してください", options)
+        # 解答選択肢を表示
+        user_answer = st.radio("解答を選択してください", options)
 
-    # 答え合わせボタン
-    if st.button("答え合わせ"):
-        # 解答が正しいかどうかを確認し、結果を表示
-        if user_answer.strip() == str(correct_answer):
-            st.write("正解です！")
-        else:
-            st.write("不正解です。正しい答えは", correct_answer, "です。")
+        # 答え合わせボタン
+        if st.button("答え合わせ"):
+            # 解答が正しいかどうかを確認し、結果を表示
+            if user_answer.strip() == str(correct_answer):
+                st.write("正解です！")
+            else:
+                st.write("不正解です。正しい答えは", correct_answer, "です。")
