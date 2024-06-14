@@ -52,7 +52,6 @@ if 'selected_word' in st.session_state:
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
     # クイズを表示
-    st.write("解答")
     quiz_answer = st.radio("選択肢", st.session_state.choices)
     
     if st.button('解答する'):
