@@ -47,7 +47,8 @@ if st.button('ガチャを引く！'):
     st.session_state.quiz_answered = False
 
 if 'selected_word' in st.session_state:
-    st.header(f"説明: {st.session_state.selected_word['説明']}")
+    st.header(f"説明")
+    st.header(f"{st.session_state.selected_word['説明']}")
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
     # クイズを表示
