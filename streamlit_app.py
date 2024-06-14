@@ -45,9 +45,19 @@ if 'selected_word' in st.session_state:
     correct_answer = st.session_state.selected_word['単語']
     wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
 
-    # 解答選択肢を表示
-    st.write("解答:")
-    st.write(correct_answer)
+    # 正解を含む選択肢をランダムに選ぶ
+    options = random.sample(wrong_answers, 3) + [correct_answer]
 
-    # 解答選択肢を表示せずに解答を直接表示
-    st.write("答え合わせボタンを押して正解を確認してください。")
+    # 選択肢をシャッフル
+    random.shuffle(options)
+
+    # 解答選択肢を表示
+    user_answer = st.radio("解答を選択してください", options)
+
+    # 答え合わせボタン
+    if st.button("答え合わせ"):
+        # 解答が正しいかどうかを確認し、結果を表示
+        if user_answer.strip() == str(correct_answer):
+            st.write("正解です！")
+        else:
+            st.write("不正解です。正しい答えは", correct_answer, "です。")
