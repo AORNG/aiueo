@@ -10,12 +10,9 @@ h1 {
 }
 """
 
-st.set_page_config(page_title="生物単語ガチャ")
-
-# タイトルと説明
-st.title('生物単語ガチャ')
-
-st.write('生物単語をランダムに表示して、勉強をサポートします！')
+# CSSを適用する
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+st.write('生物用語をランダムに表示して、勉強をサポートします！')
 st.write('がんばってください！')
 
 # Load the data
