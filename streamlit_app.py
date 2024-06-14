@@ -35,31 +35,33 @@ if st.button('ガチャを引く！'):
     subset_df = words_df[words_df['レア度'] == chosen_rarity]
     selected_word = subset_df.sample().iloc[0]
     
-    # セッションステートに選択された単語を保存
+    # クイズ用の選択肢を生成
+    other_words = words_df[words_df['用語'] != selected_word['用語']].sample(2)
+    choices = other_words['用語の意味'].tolist() + [selected_word['用語の意味']]
+    np.random.shuffle(choices)
+    
+    # セッションステートに選択された単語とクイズ選択肢を保存
     st.session_state.selected_word = selected_word
+    st.session_state.choices = choices
+    st.session_state.correct_answer = selected_word['用語の意味']
+    st.session_state.display_meaning = False
+    st.session_state.quiz_answered = False
 
-    if 'selected_word' in st.session_state:
-        st.title(f"Q: {st.session_state.selected_word['説明']}")
+if 'selected_word' in st.session_state:
+    st.header(f"用語名: {st.session_state.selected_word['用語']}")
+    st.subheader(f"難易度: {st.session_state.selected_word['難易度']}")
 
-        # 正解と誤答を取得
-        correct_answer = st.session_state.selected_word['単語']
-        wrong_answers = words_df[words_df['レア度'] != st.session_state.selected_word['レア度']]['単語'].tolist()
+    # クイズを表示
+    st.write("この用語の意味はどれでしょう？")
+    quiz_answer = st.radio("選択肢", st.session_state.choices)
+    
+    if st.button('回答する'):
+        st.session_state.quiz_answered = True
+        st.session_state.selected_choice = quiz_answer
 
-        # 正解を含む選択肢をランダムに選ぶ
-        options = random.sample(wrong_answers, 3) + [correct_answer]
-
-        # 選択肢をシャッフル
-        random.shuffle(options)
-
-        # 解答選択肢を表示
-        user_answer = st.radio("解答を選択してください", options)
-
-        # 解答が正しいかどうかを確認し、結果を表示
-        if user_answer.strip() == str(correct_answer):
-            st.write("正解です！")
+    if st.session_state.quiz_answered:
+        if st.session_state.selected_choice == st.session_state.correct_answer:
+            st.success("正解です！")
         else:
-            st.write("不正解です。正しい答えは", correct_answer, "です。")
-
-        # 正解と解答を表示
-        st.write(f"正しい答え: {correct_answer}")
-        st.write(f"あなたの答え: {user_answer}")
+            st.error("不正解です。")
+        st.write(f"正しい意味: {st.session_state.correct_answer}")
