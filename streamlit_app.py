@@ -2,11 +2,16 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-st.set_page_config(page_title="生物用語ガチャ")
+# Montserratフォントを使ったタイトルを表示
+st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
+css = """
+h1 {
+    color: #00CED1; /* タイトルの文字色を赤に変更 */
+}
+"""
 
-# タイトルと説明
-st.title('生物用語ガチャ')
-
+# CSSを適用する
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 st.write('生物用語をランダムに表示して、勉強をサポートします！')
 st.write('がんばってください！')
 
@@ -30,26 +35,26 @@ if st.button('ガチャを引く！'):
     selected_word = subset_df.sample().iloc[0]
     
     # クイズ用の選択肢を生成
-    other_words = words_df[words_df['用語'] != selected_word['用語']].sample(2)
-    choices = other_words['意味'].tolist() + [selected_word['意味']]
+    other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
+    choices = other_words['単語'].tolist() + [selected_word['単語']]
     np.random.shuffle(choices)
     
     # セッションステートに選択された単語とクイズ選択肢を保存
     st.session_state.selected_word = selected_word
     st.session_state.choices = choices
-    st.session_state.correct_answer = selected_word['意味']
+    st.session_state.correct_answer = selected_word['単語']
     st.session_state.display_meaning = False
     st.session_state.quiz_answered = False
 
 if 'selected_word' in st.session_state:
-    st.header(f"用語名: {st.session_state.selected_word['用語']}")
+    st.header(f"説明")
+    st.header(f"{st.session_state.selected_word['説明']}")
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
     # クイズを表示
-    st.write("この用語の意味はどれでしょう？")
     quiz_answer = st.radio("選択肢", st.session_state.choices)
     
-    if st.button('回答する'):
+    if st.button('解答する'):
         st.session_state.quiz_answered = True
         st.session_state.selected_choice = quiz_answer
 
@@ -58,11 +63,4 @@ if 'selected_word' in st.session_state:
             st.success("正解です！")
         else:
             st.error("不正解です。")
-        st.write(f"正しい意味: {st.session_state.correct_answer}")
-
-    # 意味を確認するボタンを追加
-    if st.button('意味を確認する'):
-        st.session_state.display_meaning = True
-
-    if st.session_state.display_meaning:
-        st.write(f"用語の意味: {st.session_state.selected_word['用語の意味']}")
+            st.write(f"正解は {st.session_state.correct_answer}")
