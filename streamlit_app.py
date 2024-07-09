@@ -24,7 +24,7 @@ def load_data():
 words_df = load_data()
 
 # 制限時間（秒）
-quiz_timeout_duration = 10
+quiz_timeout_duration = 30
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
@@ -89,3 +89,6 @@ if 'selected_word' in st.session_state:
             else:
                 st.error("不正解です。")
                 st.write(f"正解は {st.session_state.correct_answer}")
+
+            # 解答後にメッセージを表示したら、コンテナをクリアする
+            time_container.empty()
