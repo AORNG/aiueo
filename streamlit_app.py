@@ -59,16 +59,16 @@ if 'selected_word' in st.session_state:
     # 経過時間を計算
     elapsed_time = time.time() - st.session_state.start_time
 
-    # スライダーで残り時間を表示
+    # 残り時間を計算
     remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-    slider_value = st.slider('残り時間', 0, quiz_timeout_duration, remaining_time)
+
+    # 進行状況バーを表示
+    progress_bar = st.progress(elapsed_time / quiz_timeout_duration)
 
     if remaining_time <= 0:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
 
-    if slider_value <= 0:
-        st.warning("時間切れです。もう一度ガチャを引いてください。")
-    else:
+    if remaining_time > 0:
         # クイズを表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
