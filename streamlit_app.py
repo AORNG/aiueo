@@ -62,8 +62,8 @@ if 'selected_word' in st.session_state:
     # 残り時間を計算
     remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
 
-    # 進行状況バーを表示
-    progress_bar = st.progress(elapsed_time / quiz_timeout_duration)
+    # 残り時間を表示
+    st.write(f"残り時間: {int(remaining_time)}秒")
 
     if remaining_time <= 0:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
@@ -82,3 +82,16 @@ if 'selected_word' in st.session_state:
             else:
                 st.error("不正解です。")
                 st.write(f"正解は {st.session_state.correct_answer}")
+
+    # 毎秒更新するための空のコンテナ
+    update_container = st.empty()
+
+    while remaining_time > 0 and not st.session_state.quiz_answered:
+        # 経過時間を再計算
+        elapsed_time = time.time() - st.session_state.start_time
+        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+        
+        # 残り時間を更新して表示
+        update_container.write(f"残り時間: {int(remaining_time)}秒")
+
+        # 1秒ごとに更新
