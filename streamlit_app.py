@@ -24,7 +24,7 @@ def load_data():
 words_df = load_data()
 
 # 制限時間（秒）
-quiz_timeout_duration = 10
+quiz_timeout_duration = 30
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
@@ -59,7 +59,10 @@ if 'selected_word' in st.session_state:
     # 残り時間の計算と表示
     elapsed_time = time.time() - st.session_state.start_time
     remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-    st.write(f"残り時間: {int(remaining_time)}秒")
+    
+    # 空のコンテナを作成して、更新用の変数を保持
+    time_container = st.empty()
+    time_container.write(f"残り時間: {int(remaining_time)}秒")
 
     if remaining_time <= 0:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
@@ -84,7 +87,7 @@ if 'selected_word' in st.session_state:
             time.sleep(1)
             elapsed_time = time.time() - st.session_state.start_time
             remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-            st.write(f"残り時間: {int(remaining_time)}秒")
+            time_container.write(f"残り時間: {int(remaining_time)}秒")
 
         # クイズが解答された後、結果を表示
         if st.session_state.quiz_answered:
