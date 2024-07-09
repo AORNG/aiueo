@@ -4,7 +4,6 @@ import numpy as np
 import time
 
 timeout_duration = 10
-start_time = time.time()
 
 while True:
     current_time = time.time()
@@ -39,6 +38,7 @@ words_df = load_data()
 
     # ガチャ機能
 if st.button('ガチャを引く！'):
+        start_time = time.time()
         rarity_probs = {
             'N': 0.4,
             'R': 0.3,
