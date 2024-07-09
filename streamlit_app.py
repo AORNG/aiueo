@@ -69,6 +69,9 @@ if 'selected_word' in st.session_state:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
 
     if remaining_time > 0:
+        # 進行状況バーを表示
+        progress = st.progress(1.0 - elapsed_time / quiz_timeout_duration)
+
         # クイズを表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
@@ -83,26 +86,16 @@ if 'selected_word' in st.session_state:
                 st.error("不正解です。")
                 st.write(f"正解は {st.session_state.correct_answer}")
 
-    # 毎秒更新するための空のコンテナ
-    update_container = st.empty()
-
     while remaining_time > 0 and not st.session_state.quiz_answered:
         # 経過時間を再計算
         elapsed_time = time.time() - st.session_state.start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
-        # 残り時間を更新して表示
-        update_container.write(f"残り時間: {int(remaining_time)}秒")
+        # 進行状況バーを更新
+        progress.progress(1.0 - elapsed_time / quiz_timeout_duration)
 
-        # ゲージの更新をJavaScriptで行う
-        progress = int((elapsed_time / quiz_timeout_duration) * 100)
-        progress_script = f"""
-            <script>
-                var progress = document.getElementById("progress-bar");
-                progress.style.width = "{progress}%";
-            </script>
-        """
-        update_container.write(progress_script, unsafe_allow_html=True)
+        # 残り時間を表示
+        st.write(f"残り時間: {int(remaining_time)}秒")
 
         # 1秒ごとに更新
         time.sleep(1)
