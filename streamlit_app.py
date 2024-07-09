@@ -24,7 +24,7 @@ def load_data():
 words_df = load_data()
 
 # 制限時間（秒）
-quiz_timeout_duration = 10
+quiz_timeout_duration = 30
 
 def clear_feedback():
     if 'feedback_container' in st.session_state:
@@ -32,6 +32,9 @@ def clear_feedback():
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
+    # ガチャボタンを押した時点で正解・不正解のメッセージを非表示にする
+    clear_feedback()
+    
     rarity_probs = {
         'N': 0.4,
         'R': 0.3,
