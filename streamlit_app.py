@@ -94,4 +94,23 @@ if 'selected_word' in st.session_state:
         # 残り時間を更新して表示
         update_container.write(f"残り時間: {int(remaining_time)}秒")
 
+        # ゲージの更新をJavaScriptで行う
+        progress = int((elapsed_time / quiz_timeout_duration) * 100)
+        progress_script = f"""
+            <script>
+                var progress = document.getElementById("progress-bar");
+                progress.style.width = "{progress}%";
+            </script>
+        """
+        update_container.write(progress_script, unsafe_allow_html=True)
+
         # 1秒ごとに更新
+        time.sleep(1)
+
+    # クイズが解答された後、結果を表示
+    if st.session_state.quiz_answered:
+        if st.session_state.selected_choice == st.session_state.correct_answer:
+            st.success("正解です！")
+        else:
+            st.error("不正解です。")
+            st.write(f"正解は {st.session_state.correct_answer}")
