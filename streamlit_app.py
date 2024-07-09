@@ -77,3 +77,5 @@ def main():
                 else:
                     st.error("不正解です。")
                     st.write(f"正解は {st.session_state.correct_answer}")
+if __name__ == '__main__':
+    main()
