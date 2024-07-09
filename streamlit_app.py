@@ -33,6 +33,8 @@ def main():
         if elapsed_time > timeout_duration:
             st.error("不正解です。")
             st.write(f"正解は {st.session_state.correct_answer}")
+        
+        st.write(f"Elapsed Time: {int(elapsed_time)} seconds")
 
         # ガチャ機能
         if st.button('ガチャを引く！'):
