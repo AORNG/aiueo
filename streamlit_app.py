@@ -24,7 +24,7 @@ def load_data():
 words_df = load_data()
 
 # 制限時間（秒）
-quiz_timeout_duration = 30
+quiz_timeout_duration = 10
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
