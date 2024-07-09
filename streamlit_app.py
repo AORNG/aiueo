@@ -24,7 +24,7 @@ def load_data():
 words_df = load_data()
 
 # 制限時間（秒）
-quiz_timeout_duration = 30
+quiz_timeout_duration = 10
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
@@ -56,22 +56,15 @@ if 'selected_word' in st.session_state:
     st.header(f"{st.session_state.selected_word['説明']}")
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
-    # 経過時間を計算
+    # 残り時間の計算と表示
     elapsed_time = time.time() - st.session_state.start_time
-
-    # 残り時間を計算
     remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-
-    # 残り時間を表示
     st.write(f"残り時間: {int(remaining_time)}秒")
 
     if remaining_time <= 0:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
 
     if remaining_time > 0:
-        # 進行状況バーを表示
-        progress = st.progress(1.0 - elapsed_time / quiz_timeout_duration)
-
         # クイズを表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
@@ -86,24 +79,17 @@ if 'selected_word' in st.session_state:
                 st.error("不正解です。")
                 st.write(f"正解は {st.session_state.correct_answer}")
 
-    while remaining_time > 0 and not st.session_state.quiz_answered:
-        # 経過時間を再計算
-        elapsed_time = time.time() - st.session_state.start_time
-        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-        
-        # 進行状況バーを更新
-        progress.progress(1.0 - elapsed_time / quiz_timeout_duration)
+        # 残り時間が1秒ごとに更新されるように設定
+        while remaining_time > 0 and not st.session_state.quiz_answered:
+            time.sleep(1)
+            elapsed_time = time.time() - st.session_state.start_time
+            remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+            st.write(f"残り時間: {int(remaining_time)}秒")
 
-        # 残り時間を表示
-        st.write(f"残り時間: {int(remaining_time)}秒")
-
-        # 1秒ごとに更新
-        time.sleep(1)
-
-    # クイズが解答された後、結果を表示
-    if st.session_state.quiz_answered:
-        if st.session_state.selected_choice == st.session_state.correct_answer:
-            st.success("正解です！")
-        else:
-            st.error("不正解です。")
-            st.write(f"正解は {st.session_state.correct_answer}")
+        # クイズが解答された後、結果を表示
+        if st.session_state.quiz_answered:
+            if st.session_state.selected_choice == st.session_state.correct_answer:
+                st.success("正解です！")
+            else:
+                st.error("不正解です。")
+                st.write(f"正解は {st.session_state.correct_answer}")
