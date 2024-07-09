@@ -26,6 +26,10 @@ words_df = load_data()
 # 制限時間（秒）
 quiz_timeout_duration = 30
 
+def clear_feedback():
+    if 'feedback' in st.session_state:
+        st.session_state.feedback.empty()
+
 # ガチャ機能
 if st.button('ガチャを引く！'):
     rarity_probs = {
@@ -66,6 +70,7 @@ if 'selected_word' in st.session_state:
 
     if remaining_time <= 0:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
+        clear_feedback()  # 時間切れ時にフィードバックをクリア
 
     if remaining_time > 0:
         # クイズを表示
@@ -89,6 +94,6 @@ if 'selected_word' in st.session_state:
             else:
                 st.error("不正解です。")
                 st.write(f"正解は {st.session_state.correct_answer}")
-
-            # 解答後にメッセージを表示したら、コンテナをクリアする
-            time_container.empty()
+            
+            # 解答後にフィードバックをクリア
+            st.session_state.feedback = st.empty()
