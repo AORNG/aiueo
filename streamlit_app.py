@@ -24,11 +24,11 @@ def load_data():
 words_df = load_data()
 
 # 制限時間（秒）
-quiz_timeout_duration = 30
+quiz_timeout_duration = 10
 
 def clear_feedback():
-    if 'feedback' in st.session_state:
-        st.session_state.feedback.empty()
+    if 'feedback_container' in st.session_state:
+        st.session_state.feedback_container.empty()
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
@@ -89,11 +89,12 @@ if 'selected_word' in st.session_state:
 
         # クイズが解答された後、結果を表示
         if st.session_state.quiz_answered:
+            feedback_container = st.empty()
             if st.session_state.selected_choice == st.session_state.correct_answer:
-                st.success("正解です！")
+                feedback_container.success("正解です！")
             else:
-                st.error("不正解です。")
-                st.write(f"正解は {st.session_state.correct_answer}")
+                feedback_container.error("不正解です。")
+                feedback_container.write(f"正解は {st.session_state.correct_answer}")
             
             # 解答後にフィードバックをクリア
-            st.session_state.feedback = st.empty()
+            st.session_state.feedback_container = feedback_container
