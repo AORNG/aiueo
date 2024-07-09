@@ -16,30 +16,29 @@ while True:
         st.error(f'Timeout: Application closed after {timeout_duration} seconds.')
         break
 
-        # ここにアプリケーションのコンテンツを追加する
-    st.write(f"Elapsed Time: {int(elapsed_time)} seconds")
+st.write(f"Elapsed Time: {int(elapsed_time)} seconds")
     # Montserratフォントを使ったタイトルを表示
-    st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
-    css = """
+st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
+css = """
     h1 {
         color: #00CED1; /* タイトルの文字色を変更 */
     }
     """
 
     # CSSを適用する
-    st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
-    st.write('生物用語をランダムに表示して、勉強をサポートします！')
-    st.write('がんばってください！')
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+st.write('生物用語をランダムに表示して、勉強をサポートします！')
+st.write('がんばってください！')
 
     # Load the data
-    @st.cache_data
-    def load_data():
+@st.cache_data
+def load_data():
         return pd.read_excel("生物ガチャ.xlsx")
 
-    words_df = load_data()
+words_df = load_data()
 
     # ガチャ機能
-    if st.button('ガチャを引く！'):
+if st.button('ガチャを引く！'):
         rarity_probs = {
             'N': 0.4,
             'R': 0.3,
@@ -65,7 +64,7 @@ while True:
         st.session_state.display_meaning = False
         st.session_state.quiz_answered = False
 
-    if 'selected_word' in st.session_state:
+if 'selected_word' in st.session_state:
         st.header(f"説明")
         st.header(f"{st.session_state.selected_word['説明']}")
         st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
@@ -82,4 +81,4 @@ while True:
                 st.success("正解です！")
             else:
                 st.error("不正解です。")
-                st.write(f"正解は {st.session_state.correct_answer}")
+                st.write(f"正解は {st.session_state.correct_answer}")    
