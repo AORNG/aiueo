@@ -75,13 +75,6 @@ if 'selected_word' in st.session_state:
             st.session_state.quiz_answered = True
             st.session_state.selected_choice = quiz_answer
 
-        if st.session_state.quiz_answered:
-            if st.session_state.selected_choice == st.session_state.correct_answer:
-                st.success("正解です！")
-            else:
-                st.error("不正解です。")
-                st.write(f"正解は {st.session_state.correct_answer}")
-
         # 残り時間が1秒ごとに更新されるように設定
         while remaining_time > 0 and not st.session_state.quiz_answered:
             time.sleep(1)
