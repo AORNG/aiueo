@@ -24,7 +24,7 @@ def load_data():
 words_df = load_data()
 
 # 制限時間（秒）
-quiz_timeout_duration = 30
+quiz_timeout_duration = 10
 
 def clear_feedback():
     if 'feedback_container' in st.session_state:
@@ -75,7 +75,7 @@ if 'selected_word' in st.session_state:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
         clear_feedback()  # 時間切れ時にフィードバックをクリア
 
-    if remaining_time > 0:
+    if remaining_time > 0 and not st.session_state.quiz_answered:
         # クイズを表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
@@ -90,14 +90,14 @@ if 'selected_word' in st.session_state:
             remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
             time_container.write(f"残り時間: {int(remaining_time)}秒")
 
-        # クイズが解答された後、結果を表示
-        if st.session_state.quiz_answered:
-            feedback_container = st.empty()
-            if st.session_state.selected_choice == st.session_state.correct_answer:
-                feedback_container.success("正解です！")
-            else:
-                feedback_container.error("不正解です。")
-                feedback_container.write(f"正解は {st.session_state.correct_answer}")
-            
-            # 解答後にフィードバックをクリア
-            st.session_state.feedback_container = feedback_container
+    # クイズが解答された後、結果を表示
+    if st.session_state.quiz_answered:
+        feedback_container = st.empty()
+        if st.session_state.selected_choice == st.session_state.correct_answer:
+            feedback_container.success("正解です！")
+        else:
+            feedback_container.error("不正解です。")
+            feedback_container.write(f"正解は {st.session_state.correct_answer}")
+        
+        # 解答後にフィードバックをクリア
+        st.session_state.feedback_container = feedback_container
