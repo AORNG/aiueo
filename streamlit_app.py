@@ -36,6 +36,7 @@ if st.button('ガチャを引く！'):
     selected_word = subset_df.sample().iloc[0]
 
     timeout_duration = 10
+    start_time = time.time()
     
     # クイズ用の選択肢を生成
     other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
