@@ -92,12 +92,9 @@ if 'selected_word' in st.session_state:
 
     # クイズが解答された後、結果を表示
     if st.session_state.quiz_answered:
-        feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
-            feedback_container.success("正解です！")
+            st.success("正解です！")
         else:
-            feedback_container.error("不正解です。")
-            feedback_container.write(f"正解は {st.session_state.correct_answer}")
-        
-        # 解答後にフィードバックをクリア
-        st.session_state.feedback_container = feedback_container
+            st.error("不正解です。")
+            st.write(f"正解は {st.session_state.correct_answer}")
+
