@@ -119,8 +119,10 @@ if st.session_state.get('started', False):
             # 次の問題に移った時にフィードバックを非表示にする
             st.session_state.answer_submitted = False  # 解答が送信されたフラグをリセット
 
-    # 残り時間の表示
-    st.write(f"残り時間: {st.session_state.remaining_time}秒")
+    # 残り時間の計算と表示
+elapsed_time = time.time() - st.session_state.start_time
+remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
 
-    # 得点を大きく表示
-    st.markdown(f"<h2 style='text-align: center;'>得点: {st.session_state.score}</h2>", unsafe_allow_html=True)
+# 空のコンテナを作成して、更新用の変数を保持
+time_container = st.empty()
+time_container.write(f"残り時間: {int(remaining_time)}秒")
