@@ -74,10 +74,11 @@ if st.session_state.get('started', False):
         st.session_state.answer_submitted = False  # 解答が送信されたかどうかのフラグ
         st.session_state.start_time = time.time()  # クイズの開始時刻を記録
 
-    if st.session_state.selected_word:
+    selected_word = st.session_state.get('selected_word', None)
+    if selected_word:
         st.header(f"説明")
-        st.header(f"{st.session_state.selected_word['説明']}")
-        st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
+        st.header(f"{selected_word['説明']}")
+        st.subheader(f"レア度: {selected_word['レア度']}")
 
         # 残り時間の計算と表示
         elapsed_time = time.time() - st.session_state.start_time
