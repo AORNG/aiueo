@@ -110,5 +110,5 @@ if 'selected_word' in st.session_state:
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
 
-# 得点を表示
-st.write(f"得点: {st.session_state.score}")
+# 得点を大きく表示
+st.markdown(f"<h2 style='text-align: center;'>得点: {st.session_state.score}</h2>", unsafe_allow_html=True)
