@@ -23,6 +23,7 @@ def load_data():
 
 words_df = load_data()
 if st.button("スタート"):
+    st.session_state.score = 0
     # 制限時間（秒）
     quiz_timeout_duration = 10
 
