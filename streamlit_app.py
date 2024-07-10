@@ -60,6 +60,7 @@ if st.button('ガチャを引く！'):
     st.session_state.correct_answer = selected_word['単語']
     st.session_state.display_meaning = False
     st.session_state.quiz_answered = False
+    st.session_state.answer_submitted = False  # 解答が送信されたかどうかのフラグ
     st.session_state.start_time = time.time()  # クイズの開始時刻を記録
 
 if 'selected_word' in st.session_state:
@@ -79,12 +80,12 @@ if 'selected_word' in st.session_state:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
         clear_feedback()  # 時間切れ時にフィードバックをクリア
 
-    if remaining_time > 0 and not st.session_state.quiz_answered:
+    if remaining_time > 0 and not st.session_state.answer_submitted:
         # クイズを表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
         if st.button('解答する'):
-            st.session_state.quiz_answered = True
+            st.session_state.answer_submitted = True  # 解答が送信されたことをフラグで管理
             st.session_state.selected_choice = quiz_answer
 
         # 残り時間が1秒ごとに更新されるように設定
@@ -95,7 +96,7 @@ if 'selected_word' in st.session_state:
             time_container.write(f"残り時間: {int(remaining_time)}秒")
 
     # クイズが解答された後、結果を表示
-    if st.session_state.quiz_answered:
+    if st.session_state.answer_submitted:
         feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
             feedback_container.success("正解です！")
@@ -108,7 +109,7 @@ if 'selected_word' in st.session_state:
         st.session_state.feedback_container = feedback_container
 
         # 次の問題に移った時にフィードバックを非表示にする
-        st.session_state.quiz_answered = False
+        st.session_state.answer_submitted = False  # 解答が送信されたフラグをリセット
 
 # 得点を大きく表示
 st.markdown(f"<h2 style='text-align: center;'>得点: {st.session_state.score}</h2>", unsafe_allow_html=True)
