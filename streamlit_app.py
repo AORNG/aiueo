@@ -99,8 +99,10 @@ if st.session_state.get('started', False):
                 st.session_state.answer_submitted = True  # 解答が送信されたことをフラグで管理
                 st.session_state.selected_choice = quiz_answer
 
+                # セッションステートのタイマーを更新
+                st.session_state.timer_update = time.time()
+
         # 残り時間が1秒ごとに更新されるように設定
-        st.experimental_memo('timer_update', time.time(), context=st.session_state)
         elapsed_time = time.time() - st.session_state.start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         time_container.write(f"残り時間: {int(remaining_time)}秒")
@@ -116,6 +118,9 @@ if st.session_state.get('started', False):
             if st.button('解答する'):
                 st.session_state.answer_submitted = True  # 解答が送信されたことをフラグで管理
                 st.session_state.selected_choice = quiz_answer
+
+                # セッションステートのタイマーを更新
+                st.session_state.timer_update = time.time()
 
         # クイズが解答された後、結果を表示
         if st.session_state.answer_submitted:
