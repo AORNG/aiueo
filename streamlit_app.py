@@ -61,9 +61,7 @@ if st.session_state.get('started', False):
         selected_word = subset_df.sample().iloc[0]
         
         # クイズ用の選択肢を生成
-        other_words = words_df.dropna(subset=['説明'])
-        other_words = other_words[other_words['説明'] != selected_word['説明']].sample(3)
-
+        other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
         choices = other_words['単語'].tolist() + [selected_word['単語']]
         np.random.shuffle(choices)
         
@@ -84,11 +82,6 @@ if st.session_state.get('started', False):
         # 残り時間の計算と表示
         elapsed_time = time.time() - st.session_state.start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-
-        # 空のコンテナを作成して、更新用の変数を保持
-        time_container = st.empty()
-        time_container.write(f"残り時間: {int(remaining_time)}秒")
-
         
         # 残り時間を更新
         st.session_state.remaining_time = int(remaining_time)
