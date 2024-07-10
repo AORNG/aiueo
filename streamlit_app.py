@@ -36,7 +36,7 @@ def clear_feedback():
 
 # スタートボタンとスコアリセットの処理
 if not st.session_state.get('started', False):
-    if st.button("スタート / スコアリセット"):
+    if st.button("スタート"):
         st.session_state.started = True
         st.session_state.score = 0
         st.session_state.answer_submitted = False
