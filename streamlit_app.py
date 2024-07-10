@@ -96,7 +96,7 @@ if 'selected_word' in st.session_state:
         if st.session_state.selected_choice == st.session_state.correct_answer:
             feedback_container.success("正解です！")
         else:
-            feedback_container.error("不正解です。")
+            feedback_container.error(f"不正解です。")
             feedback_container.error(f"正解は {st.session_state.correct_answer}")
             
         
