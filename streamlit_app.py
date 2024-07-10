@@ -17,25 +17,35 @@ st.write('生物用語をランダムに表示して、勉強をサポートし�
 st.write('がんばってください！')
 
 # Load the data
-@st.cache_data
+@st.cache(allow_output_mutation=True)
 def load_data():
     return pd.read_excel("生物ガチャ.xlsx")
 
 words_df = load_data()
-if st.button("スタート"):
+
+# 制限時間（秒）
+quiz_timeout_duration = 10
+
+# セッションステートにスコアを追加
+if 'score' not in st.session_state:
     st.session_state.score = 0
-    # 制限時間（秒）
-    quiz_timeout_duration = 10
 
-    # セッションステートにスコアを追加
-    if 'score' not in st.session_state:
+def clear_feedback():
+    if 'feedback_container' in st.session_state:
+        st.session_state.feedback_container.empty()
+
+# スタートボタンとスコアリセットの処理
+if not st.session_state.get('started', False):
+    if st.button("スタート / スコアリセット"):
+        st.session_state.started = True
         st.session_state.score = 0
+        st.session_state.answer_submitted = False
+        st.session_state.quiz_answered = False
+        st.session_state.selected_word = None
+        st.session_state.choices = []
 
-    def clear_feedback():
-        if 'feedback_container' in st.session_state:
-            st.session_state.feedback_container.empty()
-
-    # ガチャ機能
+# ガチャ機能
+if st.session_state.get('started', False):
     if st.button('ガチャを引く！'):
         # ガチャボタンを押した時点で正解・不正解のメッセージを非表示にする
         clear_feedback()
@@ -64,7 +74,7 @@ if st.button("スタート"):
         st.session_state.answer_submitted = False  # 解答が送信されたかどうかのフラグ
         st.session_state.start_time = time.time()  # クイズの開始時刻を記録
 
-    if 'selected_word' in st.session_state:
+    if st.session_state.selected_word:
         st.header(f"説明")
         st.header(f"{st.session_state.selected_word['説明']}")
         st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
