@@ -114,4 +114,24 @@ if st.session_state.get('started', False):
             quiz_answer = st.radio("選択肢", st.session_state.choices)
             
             if st.button('解答する'):
-                st.session_state.
+                st.session_state.answer_submitted = True  # 解答が送信されたことをフラグで管理
+                st.session_state.selected_choice = quiz_answer
+
+        # クイズが解答された後、結果を表示
+        if st.session_state.answer_submitted:
+            feedback_container = st.empty()
+            if st.session_state.selected_choice == st.session_state.correct_answer:
+                feedback_container.success("正解です！")
+                st.session_state.score += 1  # 正解したら得点を加算
+            else:
+                feedback_container.error(f"不正解です。")
+                st.write(f"正解は {st.session_state.correct_answer}")            
+            
+            # 解答後にフィードバックをクリア
+            st.session_state.feedback_container = feedback_container
+
+            # 次の問題に移った時にフィードバックを非表示にする
+            st.session_state.answer_submitted = False  # 解答が送信されたフラグをリセット
+
+    # 得点を大きく表示
+    st.markdown(f"<h2 style='text-align: center;'>得点: {st.session_state.score}</h2>", unsafe_allow_html=True)
