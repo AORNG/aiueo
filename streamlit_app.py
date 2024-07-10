@@ -97,6 +97,7 @@ if 'selected_word' in st.session_state:
             feedback_container.success("正解です！")
         else:
             feedback_container.error("不正解です。")
+            feedback_container.write(f"正解は {st.session_state.correct_answer}")
             
         
         # 解答後にフィードバックをクリア
