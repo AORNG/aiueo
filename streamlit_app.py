@@ -61,7 +61,9 @@ if st.session_state.get('started', False):
         selected_word = subset_df.sample().iloc[0]
         
         # クイズ用の選択肢を生成
-        other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
+        other_words = words_df.dropna(subset=['説明'])
+        other_words = other_words[other_words['説明'] != selected_word['説明']].sample(3)
+
         choices = other_words['単語'].tolist() + [selected_word['単語']]
         np.random.shuffle(choices)
         
