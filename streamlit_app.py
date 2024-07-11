@@ -107,6 +107,7 @@ if st.session_state.get('started', False):
             # タイマーを更新
             elapsed_time = time.time() - st.session_state.start_time
             remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+            time.sleep(1)  # タイマーを1秒ごとに更新
         
         # 時間切れ時の処理
         if remaining_time <= 0:
