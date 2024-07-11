@@ -95,7 +95,7 @@ if st.session_state.get('started', False):
             timer_placeholder.text(f"残り時間: {int(remaining_time)}秒")
             
             # クイズを表示
-            quiz_answer = st.radio("選択肢", st.session_state.choices)
+            quiz_answer = st.radio("選択肢", st.session_state.choices, key=f"quiz_{time.time()}")  # ユニークなキーを付けて解決する
             
             if st.button('解答する'):
                 st.session_state.answer_submitted = True  # 解答が送信されたことをフラグで管理
