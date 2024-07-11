@@ -43,6 +43,7 @@ if not st.session_state.get('started', False):
         st.session_state.quiz_answered = False
         st.session_state.selected_word = None
         st.session_state.choices = []
+        st.session_state.start_time = time.time()  # クイズの開始時刻を記録
 
 # ガチャ機能
 if st.session_state.get('started', False):
@@ -86,11 +87,13 @@ if st.session_state.get('started', False):
         # 残り時間を更新
         st.session_state.remaining_time = int(remaining_time)
 
-        if remaining_time <= 0:
-            st.warning("時間切れです。もう一度ガチャを引いてください。")
-            clear_feedback()  # 時間切れ時にフィードバックをクリア
-
-        if remaining_time > 0 and not st.session_state.answer_submitted:
+        # タイマーを動的に更新するためのプレースホルダ
+        timer_placeholder = st.empty()
+        
+        while remaining_time > 0 and not st.session_state.answer_submitted:
+            # 残り時間を表示
+            timer_placeholder.text(f"残り時間: {int(remaining_time)}秒")
+            
             # クイズを表示
             quiz_answer = st.radio("選択肢", st.session_state.choices)
             
@@ -100,6 +103,15 @@ if st.session_state.get('started', False):
 
                 # セッションステートのタイマーを更新
                 st.session_state.timer_update = time.time()
+
+            # タイマーを更新
+            elapsed_time = time.time() - st.session_state.start_time
+            remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+        
+        # 時間切れ時の処理
+        if remaining_time <= 0:
+            st.warning("時間切れです。もう一度ガチャを引いてください。")
+            clear_feedback()  # 時間切れ時にフィードバックをクリア
 
         # クイズが解答された後、結果を表示
         if st.session_state.answer_submitted:
@@ -116,9 +128,6 @@ if st.session_state.get('started', False):
 
             # 次の問題に移った時にフィードバックを非表示にする
             st.session_state.answer_submitted = False  # 解答が送信されたフラグをリセット
-
-    # 残り時間の表示
-    st.write(f"残り時間: {st.session_state.remaining_time}秒")
 
     # 得点を大きく表示
     st.markdown(f"<h2 style='text-align: center;'>得点: {st.session_state.score}</h2>", unsafe_allow_html=True)
