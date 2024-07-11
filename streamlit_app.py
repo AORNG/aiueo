@@ -71,7 +71,7 @@ if 'selected_word' in st.session_state:
     
     # 空のコンテナを作成して、更新用の変数を保持
     time_container = st.empty()
-    time_container.write(f"残り時間: {int(remaining_time)}秒")
+    time_container.title(f"残り時間: {int(remaining_time)}秒")
 
     if remaining_time <= 0:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
