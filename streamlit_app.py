@@ -90,7 +90,7 @@ if 'selected_word' in st.session_state:
             time.sleep(1)
             elapsed_time = time.time() - st.session_state.start_time
             remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-            time_container.write(f"残り時間: {int(remaining_time)}秒")
+            time_container.title(f"残り時間: {int(remaining_time)}秒")
 
     # クイズが解答された後、結果を表示
     if st.session_state.quiz_answered:
