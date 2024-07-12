@@ -94,6 +94,18 @@ if 'selected_word' in st.session_state:
         
         time.sleep(0.1)  # 0.1秒ごとに更新
 
+    if not st.session_state.quiz_answered and remaining_time <= 0:
+        # 時間切れ後に解答がされていない場合
+        st.session_state.choices = []  # 空のリストにして選択肢を非表示
+
+    if st.session_state.choices:
+        # クイズの選択肢を表示
+        quiz_answer = st.radio("選択肢", st.session_state.choices)
+        
+        if st.button('解答する'):
+            st.session_state.quiz_answered = True
+            st.session_state.selected_choice = quiz_answer
+
     if st.session_state.quiz_answered:
         # クイズが解答された後、結果を表示
         feedback_container = st.empty()
