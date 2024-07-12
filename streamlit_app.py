@@ -43,11 +43,6 @@ if st.button('ガチャを引く！'):
     }
     chosen_rarity = np.random.choice(list(rarity_probs.keys()), p=list(rarity_probs.values()))
     subset_df = words_df[words_df['レア度'] == chosen_rarity]
-    
-    # 直前の問題と同じ問題が選ばれないようにする
-    if 'previous_word' in st.session_state:
-        subset_df = subset_df[subset_df['単語'] != st.session_state.previous_word['単語']]
-    
     selected_word = subset_df.sample().iloc[0]
     
     # クイズ用の選択肢を生成
@@ -62,9 +57,6 @@ if st.button('ガチャを引く！'):
     st.session_state.display_meaning = False
     st.session_state.quiz_answered = False
     st.session_state.start_time = time.time()  # クイズの開始時刻を記録
-    
-    # 直前の問題を記録
-    st.session_state.previous_word = selected_word
 
 if 'selected_word' in st.session_state:
     st.header(f"説明")
@@ -72,38 +64,43 @@ if 'selected_word' in st.session_state:
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
     # 残り時間の計算と表示
-    start_time = st.session_state.start_time
+    elapsed_time = time.time() - st.session_state.start_time
+    remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+    
+    # 空のコンテナを作成して、更新用の変数を保持
     time_container = st.empty()
+    time_container.write(f"残り時間: {int(remaining_time)}秒")
 
-    # クイズの選択肢表示
-    if not st.session_state.quiz_answered:
-        elapsed_time = time.time() - start_time
-        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-        
-        # タイマーの表示
-        time_container.title(f"残り時間: {remaining_time:.1f}秒")
-        
-        if remaining_time <= 0:
-            st.warning("時間切れです。もう一度ガチャを引いてください。")
-            clear_feedback()  # 時間切れ時にフィードバックをクリア
-            st.session_state.choices = []  # 空のリストにして選択肢を非表示
-        else:
-            # クイズの選択肢を表示
-            quiz_answer = st.radio("選択肢", st.session_state.choices)
-            
-            if st.button('解答する'):
-                st.session_state.quiz_answered = True
-                st.session_state.selected_choice = quiz_answer
+    if remaining_time <= 0:
+        st.warning("時間切れです。もう一度ガチャを引いてください。")
+        clear_feedback()  # 時間切れ時にフィードバックをクリア
 
+    if remaining_time > 0 and not st.session_state.quiz_answered:
+        # クイズを表示
+        quiz_answer = st.radio("選択肢", st.session_state.choices)
+        
+        if st.button('解答する'):
+            st.session_state.quiz_answered = True
+            st.session_state.selected_choice = quiz_answer
+
+        # タイマーの更新
+        while remaining_time > 0 and not st.session_state.quiz_answered:
+            elapsed_time = time.time() - st.session_state.start_time
+            remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+            time_container.write(f"残り時間: {int(remaining_time)}秒")
+            st.time.sleep(0.1)  # 短いスリープでタイマーの更新を滑らかにする
+
+    # クイズが解答された後、結果を表示
     if st.session_state.quiz_answered:
-        # クイズが解答された後、結果を表示
         feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
-            feedback_container.success("正解！")  
+            feedback_container.success("正解です！")
         else:
             feedback_container.error(f"不正解です。")
             st.write(f"正解は {st.session_state.correct_answer}")            
         
-        # 解答後に選択肢を非表示にする
-        st.session_state.choices = []  # 空のリストにして選択肢を非表示
-        time_container.empty()  # タイマーも非表示にする
+        # 解答後にフィードバックをクリア
+        st.session_state.feedback_container = feedback_container
+
+        # 次の問題に移った時にフィードバックを非表示にする
+        st.session_state.quiz_answered = False
