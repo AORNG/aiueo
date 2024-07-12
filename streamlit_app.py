@@ -67,7 +67,10 @@ if 'selected_word' in st.session_state:
     start_time = st.session_state.start_time
     time_container = st.empty()  # 時間を表示するための空のコンテナ
     
-    while not st.session_state.quiz_answered and time.time() - start_time < quiz_timeout_duration:
+    # タイマーの初期化
+    remaining_time = quiz_timeout_duration
+    
+    while not st.session_state.quiz_answered and remaining_time > 0:
         elapsed_time = time.time() - start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
@@ -75,9 +78,11 @@ if 'selected_word' in st.session_state:
         time_container.write(f"残り時間: {int(remaining_time)}秒")
         time.sleep(0.1)  # 0.1秒ごとに更新
 
-    if not st.session_state.quiz_answered and time.time() - start_time >= quiz_timeout_duration:
+    # 時間切れの処理
+    if not st.session_state.quiz_answered and remaining_time == 0:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
         clear_feedback()  # 時間切れ時にフィードバックをクリア
+        st.session_state.choices = []  # 空のリストにして選択肢を非表示
 
     if st.session_state.quiz_answered:
         # クイズが解答された後、結果を表示
@@ -93,6 +98,3 @@ if 'selected_word' in st.session_state:
 
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
-
-    if remaining_time == 0 and not st.session_state.quiz_answered:
-        st.session_state.choices = []  # 空のリストにして選択肢を非表示
