@@ -64,34 +64,23 @@ if 'selected_word' in st.session_state:
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
     # 残り時間の計算と表示
-    elapsed_time = time.time() - st.session_state.start_time
-    remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+    start_time = st.session_state.start_time
+    time_container = st.empty()  # 時間を表示するための空のコンテナ
     
-    # 空のコンテナを作成して、更新用の変数を保持
-    time_container = st.empty()
-    time_container.write(f"残り時間: {int(remaining_time)}秒")
+    while not st.session_state.quiz_answered and time.time() - start_time < quiz_timeout_duration:
+        elapsed_time = time.time() - start_time
+        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+        
+        # タイマーの表示を更新
+        time_container.write(f"残り時間: {int(remaining_time)}秒")
+        time.sleep(0.1)  # 0.1秒ごとに更新
 
-    if remaining_time <= 0:
+    if not st.session_state.quiz_answered and time.time() - start_time >= quiz_timeout_duration:
         st.warning("時間切れです。もう一度ガチャを引いてください。")
         clear_feedback()  # 時間切れ時にフィードバックをクリア
 
-    if remaining_time > 0 and not st.session_state.quiz_answered:
-        # クイズを表示
-        quiz_answer = st.radio("選択肢", st.session_state.choices)
-        
-        if st.button('解答する'):
-            st.session_state.quiz_answered = True
-            st.session_state.selected_choice = quiz_answer
-
-        # タイマーの更新
-        while remaining_time > 0 and not st.session_state.quiz_answered:
-            elapsed_time = time.time() - st.session_state.start_time
-            remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-            time_container.write(f"残り時間: {int(remaining_time)}秒")
-            st.time.sleep(0.1)  # 短いスリープでタイマーの更新を滑らかにする
-
-    # クイズが解答された後、結果を表示
     if st.session_state.quiz_answered:
+        # クイズが解答された後、結果を表示
         feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
             feedback_container.success("正解です！")
@@ -104,3 +93,6 @@ if 'selected_word' in st.session_state:
 
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
+
+    if remaining_time == 0 and not st.session_state.quiz_answered:
+        st.session_state.choices = []  # 空のリストにして選択肢を非表示
