@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import time
 
-
-
 # Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
 css = """
@@ -45,6 +43,11 @@ if st.button('ガチャを引く！'):
     }
     chosen_rarity = np.random.choice(list(rarity_probs.keys()), p=list(rarity_probs.values()))
     subset_df = words_df[words_df['レア度'] == chosen_rarity]
+    
+    # 直前の問題と同じ問題が選ばれないようにする
+    if 'previous_word' in st.session_state:
+        subset_df = subset_df[subset_df['単語'] != st.session_state.previous_word['単語']]
+    
     selected_word = subset_df.sample().iloc[0]
     
     # クイズ用の選択肢を生成
@@ -59,6 +62,9 @@ if st.button('ガチャを引く！'):
     st.session_state.display_meaning = False
     st.session_state.quiz_answered = False
     st.session_state.start_time = time.time()  # クイズの開始時刻を記録
+    
+    # 直前の問題を記録
+    st.session_state.previous_word = selected_word
 
 if 'selected_word' in st.session_state:
     st.header(f"説明")
