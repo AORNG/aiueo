@@ -102,7 +102,7 @@ if 'selected_word' in st.session_state:
     if st.session_state.quiz_answered:
         feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
-            feedback_container.success("葉緒葉緒葉緒葉緒葉緒")  # 正解時に「葉緒」と表示
+            feedback_container.success("正解！")  # 正解時に「葉緒」と表示
         else:
             feedback_container.error(f"不正解です。")
             st.write(f"正解は {st.session_state.correct_answer}")            
