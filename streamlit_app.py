@@ -93,7 +93,7 @@ if 'selected_word' in st.session_state:
 
         # 残り時間が1秒ごとに更新されるように設定
         while remaining_time > 0 and not st.session_state.quiz_answered:
-            time.sleep(1)
+            time.sleep(0.1)
             elapsed_time = time.time() - st.session_state.start_time
             remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
             time_container.title(f"残り時間: {int(remaining_time)}秒")
