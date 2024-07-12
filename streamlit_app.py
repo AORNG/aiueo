@@ -85,9 +85,9 @@ if 'selected_word' in st.session_state:
 
     if remaining_time > 0 and not st.session_state.quiz_answered:
         # クイズを表示
-        quiz_answer = st.radio("選択肢", st.session_state.choices)
+        quiz_answer = st.radio("選択肢", st.session_state.choices, key="quiz_options")
         
-        if st.button('解答する'):
+        if st.button('解答する', key='submit_button'):
             st.session_state.quiz_answered = True
             st.session_state.selected_choice = quiz_answer
 
@@ -110,5 +110,6 @@ if 'selected_word' in st.session_state:
         # 解答後にフィードバックをクリア
         st.session_state.feedback_container = feedback_container
 
-        # 次の問題に移った時にフィードバックを非表示にする
+        # 解答後に選択肢を非表示にする
+        st.session_state.choices = []  # 空のリストにすることで選択肢を表示しないようにする
         st.session_state.quiz_answered = False
