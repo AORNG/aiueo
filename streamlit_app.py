@@ -36,6 +36,9 @@ def clear_feedback():
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
+    # ガチャボタンを押したときにスコアをリセット
+    st.session_state.score = 0
+    
     # ガチャボタンを押した時点で正解・不正解のメッセージを非表示にする
     clear_feedback()
     
@@ -108,8 +111,7 @@ if 'selected_word' in st.session_state:
             feedback_container.success("正解です！")
         else:
             feedback_container.error(f"不正解です。")
-            st.write(f"正解は {st.session_state.correct_answer}") 
-            st.session_state.score -= 10  # 不正解の場合に点数を追加           
+            st.write(f"正解は {st.session_state.correct_answer}")            
         
         # 解答後にフィードバックをクリア
         st.session_state.feedback_container = feedback_container
