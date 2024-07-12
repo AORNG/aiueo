@@ -85,6 +85,7 @@ if 'selected_word' in st.session_state:
         if remaining_time <= 0:
             st.warning("時間切れです。もう一度ガチャを引いてください。")
             clear_feedback()  # 時間切れ時にフィードバックをクリア
+            st.session_state.choices = []  # 空のリストにして選択肢を非表示
             break  # ループを終了
         
         # クイズが解答された場合はループを終了
@@ -92,10 +93,6 @@ if 'selected_word' in st.session_state:
             break
         
         time.sleep(0.1)  # 0.1秒ごとに更新
-
-    if not st.session_state.quiz_answered and remaining_time <= 0:
-        # 時間切れ後に解答がされていない場合
-        st.session_state.choices = []  # 空のリストにすることで選択肢を表示しないようにする
 
     if st.session_state.quiz_answered:
         # クイズが解答された後、結果を表示
@@ -106,8 +103,5 @@ if 'selected_word' in st.session_state:
             feedback_container.error(f"不正解です。")
             st.write(f"正解は {st.session_state.correct_answer}")            
         
-        # 解答後にフィードバックをクリア
-        st.session_state.feedback_container = feedback_container
-
         # 解答後に選択肢を非表示にする
-        st.session_state.choices = []  # 空のリストにすることで選択肢を表示しないようにする
+        st.session_state.choices = []  # 空のリストにして選択肢を非表示
