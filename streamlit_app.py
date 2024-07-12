@@ -112,7 +112,9 @@ if 'selected_word' in st.session_state:
         else:
             feedback_container.error(f"不正解です。")
             st.write(f"正解は {st.session_state.correct_answer}") 
-            st.session_state.score -= 10           
+            st.session_state.score -= 10 
+            if score >= 0:
+                score = 0         
         
         # 解答後にフィードバックをクリア
         st.session_state.feedback_container = feedback_container
