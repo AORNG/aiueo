@@ -68,8 +68,8 @@ st.sidebar.write(f"現在の点数: {st.session_state.score}")
 
 # クイズの表示
 if 'selected_word' in st.session_state:
-    st.header("説明")
-    st.write(st.session_state.selected_word['説明'])
+    st.write("説明")
+    st.header(st.session_state.selected_word['説明'])
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
     # 残り時間の計算と表示
@@ -106,7 +106,7 @@ if 'selected_word' in st.session_state:
     if st.session_state.quiz_answered:
         feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
-            st.session_state.score += 10  # 正解の場合に点数を追加
+            st.session_state.score += 1  # 正解の場合に点数を追加
             feedback_container.success("正解です！")
         else:
             feedback_container.error(f"不正解です。")
