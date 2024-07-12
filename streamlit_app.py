@@ -23,6 +23,10 @@ def load_data():
 
 words_df = load_data()
 
+# 初期点数の設定
+if 'score' not in st.session_state:
+    st.session_state.score = 0
+
 # 制限時間（秒）
 quiz_timeout_duration = 10
 
@@ -57,6 +61,10 @@ if st.button('ガチャを引く！'):
     st.session_state.display_meaning = False
     st.session_state.quiz_answered = False
     st.session_state.start_time = time.time()  # クイズの開始時刻を記録
+
+# 点数の表示
+st.sidebar.header("スコア")
+st.sidebar.write(f"現在の点数: {st.session_state.score}")
 
 # クイズの表示
 if 'selected_word' in st.session_state:
@@ -98,6 +106,7 @@ if 'selected_word' in st.session_state:
     if st.session_state.quiz_answered:
         feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
+            st.session_state.score += 10  # 正解の場合に点数を追加
             feedback_container.success("正解です！")
         else:
             feedback_container.error(f"不正解です。")
