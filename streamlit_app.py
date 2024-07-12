@@ -36,10 +36,7 @@ def clear_feedback():
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
-    # ガチャボタンを押したときにスコアをリセット
-    st.session_state.score = 0
-    
-    # ガチャボタンを押した時点で正解・不正解のメッセージを非表示にする
+    # ガチャボタンを押したときに点数をリセットしないように修正
     clear_feedback()
     
     rarity_probs = {
