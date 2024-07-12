@@ -75,34 +75,33 @@ if 'selected_word' in st.session_state:
     start_time = st.session_state.start_time
     time_container = st.empty()
     
-    while not st.session_state.quiz_answered and remaining_time > 0:
+    while not st.session_state.quiz_answered:
         elapsed_time = time.time() - start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
+        # タイマーの表示
         time_container.title(f"残り時間: {remaining_time:.1f}秒")
-        time.sleep(0.1)  # 0.1秒ごとに更新
         
-        # クイズが解答された後の処理
+        if remaining_time <= 0:
+            st.warning("時間切れです。もう一度ガチャを引いてください。")
+            clear_feedback()  # 時間切れ時にフィードバックをクリア
+            break  # ループを終了
+        
+        # クイズが解答された場合はループを終了
         if st.session_state.quiz_answered:
             break
         
-    if remaining_time <= 0:
-        st.warning("時間切れです。もう一度ガチャを引いてください。")
-        clear_feedback()  # 時間切れ時にフィードバックをクリア
+        time.sleep(0.1)  # 0.1秒ごとに更新
 
-    if remaining_time > 0 and not st.session_state.quiz_answered:
-        # クイズを表示
-        quiz_answer = st.radio("選択肢", st.session_state.choices, key="quiz_options")
-        
-        if st.button('解答する', key='submit_button'):
-            st.session_state.quiz_answered = True
-            st.session_state.selected_choice = quiz_answer
+    if not st.session_state.quiz_answered and remaining_time <= 0:
+        # 時間切れ後に解答がされていない場合
+        st.session_state.choices = []  # 空のリストにすることで選択肢を表示しないようにする
 
-    # クイズが解答された後、結果を表示
     if st.session_state.quiz_answered:
+        # クイズが解答された後、結果を表示
         feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
-            feedback_container.success("葉緒")  # 正解時に「葉緒」と表示
+            feedback_container.success("正解！")  
         else:
             feedback_container.error(f"不正解です。")
             st.write(f"正解は {st.session_state.correct_answer}")            
