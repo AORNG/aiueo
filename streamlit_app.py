@@ -24,7 +24,7 @@ def load_data():
 words_df = load_data()
 
 # 制限時間（秒）
-quiz_timeout_duration = 11
+quiz_timeout_duration = 10
 
 def clear_feedback():
     if 'feedback_container' in st.session_state:
