@@ -39,7 +39,7 @@ def clear_feedback():
         st.session_state.feedback_container.empty()
 
 # ガチャ機能
-if st.button('ガチャを引く！', class_='button-center'):
+if st.button('ガチャを引く！'):
     # ガチャボタンを押したときに点数をリセットしないように修正
     clear_feedback()
     
@@ -120,3 +120,4 @@ if 'selected_word' in st.session_state:
 
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
+q
