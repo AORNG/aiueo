@@ -90,7 +90,7 @@ if 'selected_word' in st.session_state:
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
         # タイマーの表示を更新
-        time_container.write(f"残り時間: {int(remaining_time)}秒")
+        time_container.title(f"残り時間: {int(remaining_time)}秒")
         
         if remaining_time <= 0:
             # 時間切れ処理
