@@ -35,7 +35,8 @@ def clear_feedback():
         st.session_state.feedback_container.empty()
 
 # ガチャ機能
-st.markdown("<div style='text-align: center;'>")  # 中央揃えの開始
+st.button('ガチャを引く！', align='center')  # ボタンを中央に配置
+
 if st.button('ガチャを引く！'):
     # ガチャボタンを押したときに点数をリセットしないように修正
     clear_feedback()
@@ -62,9 +63,6 @@ if st.button('ガチャを引く！'):
     st.session_state.display_meaning = False
     st.session_state.quiz_answered = False
     st.session_state.start_time = time.time()  # クイズの開始時刻を記録
-
-# ボタンの中央揃えを終了
-st.markdown("</div>")
 
 # 点数の表示
 st.sidebar.header("スコア")
