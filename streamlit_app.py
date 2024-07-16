@@ -13,6 +13,14 @@ h1 {
     display: block;
     margin: 0 auto;
 }
+.score {
+    font-size: 24px; /* フォントサイズを大きくする */
+    font-weight: bold; /* 太字にする */
+    text-align: center; /* 中央寄せ */
+    padding: 10px; /* 余白を追加 */
+    background-color: #f0f0f0; /* 背景色を設定 */
+    border-radius: 5px; /* 角丸にする */
+}
 """
 
 # CSSを適用する
@@ -21,7 +29,7 @@ st.write('生物用語をランダムに表示して、勉強をサポートし�
 st.write('がんばってください！')
 
 # Load the data
-@st.cache_data
+@st.cache
 def load_data():
     return pd.read_excel("生物ガチャ.xlsx")
 
@@ -39,7 +47,7 @@ def clear_feedback():
         st.session_state.feedback_container.empty()
 
 # ガチャ機能
-if st.button('ガチャを引く！', key='gacha_button'):
+if st.button('ガチャを引く！'):
     # ガチャボタンを押したときに点数をリセットしないように修正
     clear_feedback()
     
@@ -65,10 +73,10 @@ if st.button('ガチャを引く！', key='gacha_button'):
     st.session_state.display_meaning = False
     st.session_state.quiz_answered = False
     st.session_state.start_time = time.time()  # クイズの開始時刻を記録
+    st.session_state.quiz_button_pressed = True  # ガチャを引いたことを記録
 
-# 点数の表示
-st.sidebar.header("スコア")
-st.sidebar.write(f"現在の点数: {st.session_state.score}")
+# スコアの表示
+st.markdown(f"<div class='score'>現在のスコア: {st.session_state.score}</div>", unsafe_allow_html=True)
 
 # クイズの表示
 if 'selected_word' in st.session_state:
@@ -80,16 +88,17 @@ if 'selected_word' in st.session_state:
     start_time = st.session_state.start_time
     time_container = st.empty()  # 時間を表示するための空のコンテナ
 
-    if not st.session_state.quiz_answered:
+    if not st.session_state.quiz_answered and st.session_state.quiz_button_pressed:
         # 選択肢の表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
-        if st.button('解答する', key='answer_button'):
+        if st.button('解答する'):
             st.session_state.quiz_answered = True
             st.session_state.selected_choice = quiz_answer
+            st.session_state.quiz_button_pressed = False  # ボタンを無効化
 
     # タイマーのループ
-    while not st.session_state.quiz_answered:
+    while not st.session_state.quiz_answered and st.session_state.quiz_button_pressed:
         elapsed_time = time.time() - start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
@@ -100,6 +109,7 @@ if 'selected_word' in st.session_state:
             # 時間切れ処理
             st.warning("時間切れです。もう一度ガチャを引いてください。")
             st.session_state.choices = []  # 空のリストにして選択肢を非表示
+            st.session_state.quiz_button_pressed = False  # ボタンを無効化
             break  # ループを終了
         
         time.sleep(0.1)  # 0.1秒ごとに更新
