@@ -80,7 +80,8 @@ if 'selected_word' in st.session_state:
         # 選択肢の表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
-        if st.button('解答する'):
+        # 選択肢が選ばれた時点で回答を送信する（ボタンを削除）
+        if st.session_state.choices:
             st.session_state.quiz_answered = True
             st.session_state.selected_choice = quiz_answer
             
