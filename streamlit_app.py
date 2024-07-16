@@ -29,10 +29,11 @@ def load_data():
 if 'score' not in st.session_state:
     st.session_state.score = 0
 
-# クイズの回答状態とボタン状態を管理する変数
+# クイズの回答状態を管理する変数
 if 'quiz_answered' not in st.session_state:
     st.session_state.quiz_answered = False
 
+# 解答ボタンの状態を管理する変数
 if 'answer_button_disabled' not in st.session_state:
     st.session_state.answer_button_disabled = False
 
@@ -118,3 +119,7 @@ if 'selected_word' in st.session_state:
 
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
+
+# 回答がある場合は解答ボタンを無効化する
+if st.session_state.quiz_answered:
+    st.button('解答する', key='answer_button', disabled=True)
