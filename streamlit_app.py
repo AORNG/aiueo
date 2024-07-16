@@ -65,6 +65,7 @@ if st.button('ガチャを引く！'):
     st.session_state.display_meaning = False
     st.session_state.quiz_answered = False
     st.session_state.start_time = time.time()  # クイズの開始時刻を記録
+    st.session_state.quiz_button_pressed = True  # ガチャを引いたことを記録
 
 # 点数の表示
 st.sidebar.header("スコア")
@@ -80,7 +81,7 @@ if 'selected_word' in st.session_state:
     start_time = st.session_state.start_time
     time_container = st.empty()  # 時間を表示するための空のコンテナ
 
-    if not st.session_state.quiz_answered:
+    if not st.session_state.quiz_answered and st.session_state.quiz_button_pressed:
         # 選択肢の表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
@@ -89,7 +90,7 @@ if 'selected_word' in st.session_state:
             st.session_state.selected_choice = quiz_answer
 
     # タイマーのループ
-    while not st.session_state.quiz_answered:
+    while not st.session_state.quiz_answered and st.session_state.quiz_button_pressed:
         elapsed_time = time.time() - start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
@@ -100,6 +101,7 @@ if 'selected_word' in st.session_state:
             # 時間切れ処理
             st.warning("時間切れです。もう一度ガチャを引いてください。")
             st.session_state.choices = []  # 空のリストにして選択肢を非表示
+            st.session_state.quiz_button_pressed = False  # ボタンを無効化
             break  # ループを終了
         
         time.sleep(0.1)  # 0.1秒ごとに更新
