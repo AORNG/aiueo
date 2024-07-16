@@ -68,8 +68,8 @@ st.sidebar.write(f"現在の点数: {st.session_state.score}")
 
 # クイズの表示
 if 'selected_word' in st.session_state:
-    st.header("説明")
-    st.write(st.session_state.selected_word['説明'])
+    st.write("説明")
+    st.header(st.session_state.selected_word['説明'])
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
     # タイマーの初期化
