@@ -20,7 +20,7 @@ st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 st.write('生物用語をランダムに表示して、勉強をサポートします！')
 st.write('がんばってください！')
 
-# Load the data
+# データの読み込み
 @st.cache
 def load_data():
     return pd.read_excel("生物ガチャ.xlsx")
