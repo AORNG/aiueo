@@ -85,7 +85,7 @@ if 'selected_word' in st.session_state:
             st.session_state.quiz_answered = True
             st.session_state.selected_choice = quiz_answer
             
-            # 選択肢を非表示にする
+            # 選択肢と回答ボタンを無効化する
             st.session_state.choices = []  
 
     # タイマーのループ
