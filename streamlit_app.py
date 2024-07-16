@@ -21,7 +21,7 @@ st.write('生物用語をランダムに表示して、勉強をサポートし�
 st.write('がんばってください！')
 
 # Load the data
-@st.cache_data
+@st.cache
 def load_data():
     return pd.read_excel("生物ガチャ.xlsx")
 
@@ -120,4 +120,3 @@ if 'selected_word' in st.session_state:
 
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
-q
