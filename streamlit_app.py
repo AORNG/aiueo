@@ -29,9 +29,12 @@ def load_data():
 if 'score' not in st.session_state:
     st.session_state.score = 0
 
-# クイズの回答状態を管理する変数
+# クイズの回答状態とボタン状態を管理する変数
 if 'quiz_answered' not in st.session_state:
     st.session_state.quiz_answered = False
+
+if 'answer_button_disabled' not in st.session_state:
+    st.session_state.answer_button_disabled = False
 
 words_df = load_data()
 
@@ -69,6 +72,7 @@ if st.button('ガチャを引く！', key='gacha_button'):
     st.session_state.display_meaning = False
     st.session_state.quiz_answered = False
     st.session_state.start_time = time.time()  # クイズの開始時刻を記録
+    st.session_state.answer_button_disabled = False  # 解答ボタンを有効化
 
 # 点数の表示
 st.sidebar.header("スコア")
@@ -88,9 +92,11 @@ if 'selected_word' in st.session_state:
         # 選択肢の表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
-        if st.button('解答する', key='answer_button'):
-            st.session_state.quiz_answered = True
-            st.session_state.selected_choice = quiz_answer
+        if not st.session_state.answer_button_disabled:
+            if st.button('解答する', key='answer_button'):
+                st.session_state.quiz_answered = True
+                st.session_state.selected_choice = quiz_answer
+                st.session_state.answer_button_disabled = True  # 解答ボタンを無効化
 
     # クイズが解答された後の処理
     if st.session_state.quiz_answered:
@@ -112,7 +118,3 @@ if 'selected_word' in st.session_state:
 
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
-
-# 回答がある場合は回答ボタンを無効化する
-if st.session_state.quiz_answered:
-    st.button('解答する', key='answer_button', disabled=True)
