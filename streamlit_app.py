@@ -68,7 +68,7 @@ if st.button('ガチャを引く！', key='gacha_button'):
 
 # 点数の表示
 st.sidebar.header("スコア")
-st.sidebar.write(f"現在の点数: **{st.session_state.score}**", unsafe_allow_html=True)
+st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
 
 # クイズの表示
 if 'selected_word' in st.session_state:
