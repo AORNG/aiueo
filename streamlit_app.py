@@ -29,6 +29,10 @@ def load_data():
 if 'score' not in st.session_state:
     st.session_state.score = 0
 
+# クイズの回答状態を管理する変数
+if 'quiz_answered' not in st.session_state:
+    st.session_state.quiz_answered = False
+
 words_df = load_data()
 
 # 制限時間（秒）
@@ -108,3 +112,7 @@ if 'selected_word' in st.session_state:
 
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
+
+# 回答がある場合は回答ボタンを無効化する
+if st.session_state.quiz_answered:
+    st.button('解答する', key='answer_button', disabled=True)
