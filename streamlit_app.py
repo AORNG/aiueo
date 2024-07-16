@@ -13,6 +13,14 @@ h1 {
     display: block;
     margin: 0 auto;
 }
+.score {
+    font-size: 24px; /* フォントサイズを大きくする */
+    font-weight: bold; /* 太字にする */
+    text-align: center; /* 中央寄せ */
+    padding: 10px; /* 余白を追加 */
+    background-color: #f0f0f0; /* 背景色を設定 */
+    border-radius: 5px; /* 角丸にする */
+}
 """
 
 # CSSを適用する
@@ -67,9 +75,8 @@ if st.button('ガチャを引く！'):
     st.session_state.start_time = time.time()  # クイズの開始時刻を記録
     st.session_state.quiz_button_pressed = True  # ガチャを引いたことを記録
 
-# 点数の表示
-st.sidebar.header("スコア")
-st.sidebar.write(f"現在の点数: {st.session_state.score}")
+# スコアの表示
+st.markdown(f"<div class='score'>現在のスコア: {st.session_state.score}</div>", unsafe_allow_html=True)
 
 # クイズの表示
 if 'selected_word' in st.session_state:
