@@ -95,6 +95,7 @@ if 'selected_word' in st.session_state:
         if st.button('解答する'):
             st.session_state.quiz_answered = True
             st.session_state.selected_choice = quiz_answer
+            st.session_state.quiz_button_pressed = False  # ボタンを無効化
 
     # タイマーのループ
     while not st.session_state.quiz_answered and st.session_state.quiz_button_pressed:
