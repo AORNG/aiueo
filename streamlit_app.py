@@ -88,24 +88,12 @@ if 'selected_word' in st.session_state:
             st.session_state.quiz_answered = True
             st.session_state.selected_choice = quiz_answer
 
-    # タイマーのループ
-    while not st.session_state.quiz_answered:
-        elapsed_time = time.time() - start_time
-        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-        
-        # タイマーの表示を更新
-        time_container.title(f"残り時間: {int(remaining_time)}秒")
-        
-        if remaining_time <= 0:
-            # 時間切れ処理
-            st.warning("時間切れです。もう一度ガチャを引いてください。")
-            st.session_state.choices = []  # 空のリストにして選択肢を非表示
-            break  # ループを終了
-        
-        time.sleep(0.1)  # 0.1秒ごとに更新
-
+    # クイズが解答された後の処理
     if st.session_state.quiz_answered:
-        # クイズが解答された後、結果を表示
+        # タイマーを非表示にするために空のコンテナを利用
+        time_container.empty()
+
+        # 結果を表示
         feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
             st.session_state.score += 10  # 正解の場合に点数を追加
