@@ -80,13 +80,9 @@ if 'selected_word' in st.session_state:
         # 選択肢の表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
-        # 選択肢が選ばれた時点で回答を送信する（ボタンを削除）
-        if st.session_state.choices:
+        if st.button('解答する'):
             st.session_state.quiz_answered = True
             st.session_state.selected_choice = quiz_answer
-            
-            # 選択肢と回答ボタンを無効化する
-            st.session_state.choices = []  
 
     # タイマーのループ
     while not st.session_state.quiz_answered:
@@ -118,5 +114,5 @@ if 'selected_word' in st.session_state:
         # 解答後にフィードバックをクリア
         st.session_state.feedback_container = feedback_container
 
-        # 次の問題に移った時に選択肢を非表示にする
+        # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
