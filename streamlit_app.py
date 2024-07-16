@@ -72,4 +72,47 @@ if 'selected_word' in st.session_state:
     st.header(st.session_state.selected_word['説明'])
     st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
-    #
+    # タイマーの初期化
+    start_time = st.session_state.start_time
+    time_container = st.empty()  # 時間を表示するための空のコンテナ
+
+    if not st.session_state.quiz_answered:
+        # 選択肢の表示
+        quiz_answer = st.radio("選択肢", st.session_state.choices)
+        
+        if st.button('解答する'):
+            st.session_state.quiz_answered = True
+            st.session_state.selected_choice = quiz_answer
+
+    # タイマーのループ
+    while not st.session_state.quiz_answered:
+        elapsed_time = time.time() - start_time
+        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+        
+        # タイマーの表示を更新
+        time_container.title(f"残り時間: {int(remaining_time)}秒")
+        
+        if remaining_time <= 0:
+            # 時間切れ処理
+            st.warning("時間切れです。もう一度ガチャを引いてください。")
+            st.session_state.choices = []  # 空のリストにして選択肢を非表示
+            break  # ループを終了
+        
+        time.sleep(0.1)  # 0.1秒ごとに更新
+
+    if st.session_state.quiz_answered:
+        # クイズが解答された後、結果を表示
+        feedback_container = st.empty()
+        if st.session_state.selected_choice == st.session_state.correct_answer:
+            st.session_state.score += 10  # 正解の場合に点数を追加
+            feedback_container.success("正解です！")
+        else:
+            feedback_container.error(f"不正解です。")
+            st.write(f"正解は {st.session_state.correct_answer}")
+            st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
+        
+        # 解答後にフィードバックをクリア
+        st.session_state.feedback_container = feedback_container
+
+        # 次の問題に移った時にフィードバックを非表示にする
+        st.session_state.quiz_answered = False
