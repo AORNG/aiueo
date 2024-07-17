@@ -132,6 +132,25 @@ if 'selected_word' in st.session_state:
 if st.session_state.quiz_answered:
     st.button('解答する', disabled=True)
 
-#スコアリセットボタンの設置
+# スコアリセットボタンの設置
 if st.button("スコアリセット"):
-    st.session_state.score=0
+    st.session_state.score = 0
+
+# JavaScriptを使って時間の経過を1秒ごとに更新する
+js_code = """
+<script>
+function updateTimer() {
+    var timerElement = document.getElementById("timer");
+    var remainingTime = parseInt(timerElement.textContent.split(":")[1].trim());
+    if (remainingTime > 0) {
+        timerElement.textContent = "残り時間: " + (remainingTime - 1) + " 秒";
+        setTimeout(updateTimer, 1000);
+    }
+}
+setTimeout(updateTimer, 1000);
+</script>
+"""
+
+# HTMLコンポーネントにJavaScriptコードを埋め込んでタイマーを更新
+st.markdown(js_code, unsafe_allow_html=True)
+st.markdown("<div id='timer'>残り時間: 10 秒</div>", unsafe_allow_html=True)
