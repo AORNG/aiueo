@@ -131,3 +131,7 @@ if 'selected_word' in st.session_state:
 # 回答がある場合は解答ボタンを無効化する
 if st.session_state.quiz_answered:
     st.button('解答する', disabled=True)
+
+#スコアリセットボタンの設置
+if st.button("スコアリセット"):
+    st.session_state.score=0
