@@ -86,12 +86,12 @@ if 'selected_word' in st.session_state:
     time_container = st.empty()  # 時間を表示するための空のコンテナ
 
     if not st.session_state.quiz_answered:
-        # 経過時間を計算
+        # 残り時間を計算
         elapsed_time = time.time() - start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
         # タイマーの表示
-        time_container.markdown(f"残り時間: **{int(remaining_time)}** 秒")
+        time_container.markdown(f"<h2 id='timer' style='text-align: center;'>残り時間: {int(remaining_time)} 秒</h2>", unsafe_allow_html=True)
 
         # 残り時間が0になったら自動で回答ボタンを無効化
         if remaining_time == 0:
@@ -109,9 +109,6 @@ if 'selected_word' in st.session_state:
 
     # クイズが解答された後の処理
     if st.session_state.quiz_answered:
-        # タイマーを非表示にするために空のコンテナを利用
-        time_container.empty()
-
         # 結果を表示
         feedback_container = st.empty()
         if st.session_state.selected_choice == st.session_state.correct_answer:
@@ -144,13 +141,12 @@ function updateTimer() {
     var remainingTime = parseInt(timerElement.textContent.split(":")[1].trim());
     if (remainingTime > 0) {
         timerElement.textContent = "残り時間: " + (remainingTime - 1) + " 秒";
-        setTimeout(updateTimer, 1000);
     }
+    setTimeout(updateTimer, 1000);
 }
-setTimeout(updateTimer, 1000);
+updateTimer();
 </script>
 """
 
 # HTMLコンポーネントにJavaScriptコードを埋め込んでタイマーを更新
 st.markdown(js_code, unsafe_allow_html=True)
-st.markdown("<div id='timer'>残り時間: 10 秒</div>", unsafe_allow_html=True)
