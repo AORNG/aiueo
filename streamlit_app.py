@@ -9,10 +9,6 @@ css = """
 h1 {
     color: #00CED1; /* タイトルの文字色を変更 */
 }
-.button-center {
-    display: block;
-    margin: 0 auto;
-}
 """
 
 # CSSを適用する
@@ -47,7 +43,7 @@ def clear_feedback():
         st.session_state.feedback_container.empty()
 
 # ガチャ機能
-if st.button('ガチャを引く！', key=None):
+if st.button('ガチャを引く！'):
     # ガチャボタンを押したときに点数をリセットしないように修正
     clear_feedback()
     
