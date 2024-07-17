@@ -89,27 +89,24 @@ if 'selected_word' in st.session_state:
     start_time = st.session_state.start_time
     time_container = st.empty()  # 時間を表示するための空のコンテナ
 
-    # タイマーのループ
-    while not st.session_state.quiz_answered:
+    if not st.session_state.quiz_answered:
+        # 経過時間を計算
         elapsed_time = time.time() - start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
-        # タイマーの表示を更新
-        time_container.title(f"残り時間: {int(remaining_time)}秒")
-        
-        if remaining_time <= 0:
-            # 時間切れ処理
-            st.warning("時間切れです。もう一度ガチャを引いてください。")
-            st.session_state.choices = []  # 空のリストにして選択肢を非表示
-            break  # ループを終了
-        
-        time.sleep(0.1)  # 0.1秒ごとに更新
+        # タイマーの表示
+        time_container.markdown(f"残り時間: **{int(remaining_time)}** 秒")
+
+        # 残り時間が0になったら自動で回答ボタンを無効化
+        if remaining_time == 0:
+            st.session_state.quiz_answered = True
+            st.session_state.answer_button_disabled = True
 
         # 選択肢の表示
         quiz_answer = st.radio("選択肢", st.session_state.choices)
         
         if not st.session_state.answer_button_disabled:
-            if st.button('解答する', key=None):
+            if st.button('解答する'):
                 st.session_state.quiz_answered = True
                 st.session_state.selected_choice = quiz_answer
                 st.session_state.answer_button_disabled = True  # 解答ボタンを無効化
@@ -137,4 +134,4 @@ if 'selected_word' in st.session_state:
 
 # 回答がある場合は解答ボタンを無効化する
 if st.session_state.quiz_answered:
-    st.button('解答する', key=None, disabled=True)
+    st.button('解答する', disabled=True)
