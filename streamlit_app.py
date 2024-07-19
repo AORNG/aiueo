@@ -140,7 +140,7 @@ while 'selected_word' in st.session_state and not st.session_state.quiz_answered
     remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
     
     # タイマーを表示
-    time_container.text(f"残り時間: {int(remaining_time)} 秒")
+    time_container.title(f"残り時間: {int(remaining_time)} 秒")
     
     # 残り時間が0になったら自動で回答ボタンを無効化
     if remaining_time == 0:
