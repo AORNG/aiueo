@@ -135,9 +135,9 @@ if 'selected_word' in st.session_state:
 if st.session_state.quiz_answered:
     st.button('解答する', disabled=True)
 
-# スコアリセットのチェックボックス（一度だけ表示）
+# スコアリセットのボタン（一度だけ表示）
 if not score_reset_done:
-    if st.checkbox("スコアをリセットする"):
+    if st.button("スコアをリセットする"):
         st.session_state.score = 0
 
 # タイマーの更新（1秒ごと）
