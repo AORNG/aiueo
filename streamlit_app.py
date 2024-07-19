@@ -63,6 +63,10 @@ if st.button('ガチャを引く！'):
 
     # クイズが解答されていない場合にのみ問題をセットアップする
     if not st.session_state.quiz_answered:
+        # スコアリセットボタンの表示と処理
+        if st.button("スコアリセット"):
+            st.session_state.score = 0
+
         # クイズ用の選択肢を生成
         other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
         choices = other_words['単語'].tolist() + [selected_word['単語']]
@@ -135,18 +139,16 @@ if 'selected_word' in st.session_state:
         st.session_state.start_time = None
 
 # タイマーの更新（1秒ごと）
-while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
+if 'selected_word' in st.session_state and not st.session_state.quiz_answered:
     # 残り時間を計算
-    elapsed_time = time.time() - st.session_state.start_time if st.session_state.start_time else 0
+    start_time = st.session_state.start_time
+    elapsed_time = time.time() - start_time if start_time else 0
     remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-    
+
     # タイマーを表示
     st.title(f"残り時間: {int(remaining_time)} 秒")
-    
+
     # 残り時間が0になったら自動で回答ボタンを無効化
     if remaining_time == 0:
         st.session_state.quiz_answered = True
         st.session_state.answer_button_disabled = True
-        break
-    
-    time.sleep(1)  # 1秒待つ
