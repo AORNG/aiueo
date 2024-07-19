@@ -140,16 +140,24 @@ if 'selected_word' in st.session_state:
         st.session_state.start_time = None
 
 # タイマーの更新（1秒ごと）
+def timer_update():
+    while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
+        # 残り時間を計算
+        start_time = st.session_state.start_time
+        elapsed_time = datetime.now() - start_time if start_time else timedelta(seconds=quiz_timeout_duration)
+        remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
+
+        # タイマーを表示
+        st.title(f"残り時間: {int(remaining_time)} 秒")
+
+        # 残り時間が0になったら自動で回答ボタンを無効化
+        if remaining_time == 0:
+            st.session_state.quiz_answered = True
+            st.session_state.answer_button_disabled = True
+            break
+
+        time.sleep(1)  # 1秒待つ
+
+# タイマーを非同期で起動
 if 'selected_word' in st.session_state and not st.session_state.quiz_answered:
-    # 残り時間を計算
-    start_time = st.session_state.start_time
-    elapsed_time = datetime.now() - start_time if start_time else timedelta(seconds=quiz_timeout_duration)
-    remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
-
-    # タイマーを表示
-    st.title(f"残り時間: {int(remaining_time)} 秒")
-
-    # 残り時間が0になったら自動で回答ボタンを無効化
-    if remaining_time == 0:
-        st.session_state.quiz_answered = True
-        st.session_state.answer_button_disabled = True
+    timer_thread = st.thread(target=timer_update)
