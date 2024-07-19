@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import time
 from datetime import datetime, timedelta
 
 # Montserratフォントを使ったタイトルを表示
@@ -139,12 +138,7 @@ if 'selected_word' in st.session_state:
         # タイマー停止
         st.session_state.start_time = None
 
-# タイマーの更新（定期的に表示を更新する）
-if 'selected_word' in st.session_state and not st.session_state.quiz_answered:
-    start_time = st.session_state.start_time
-    if start_time is not None:
-        elapsed_time = datetime.now() - start_time
-        remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
-        st.title(f"残り時間: {int(remaining_time)} 秒")
-    else:
-        st.title("残り時間: 0 秒")
+    # タイマーの更新（1秒ごと）
+    if not st.session_state.quiz_answered:
+        st.header(f"残り時間: {int(remaining_time)} 秒")
+
