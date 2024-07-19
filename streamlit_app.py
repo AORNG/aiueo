@@ -130,7 +130,7 @@ if st.session_state.quiz_answered:
     st.button('解答する', disabled=True)
 
 # スコアリセットのチェックボックス
-if st.checkbox("スコアリセット"):
+if st.checkbox("スコアをリセットする"):
     st.session_state.score = 0
 
 # タイマーの更新（1秒ごと）
