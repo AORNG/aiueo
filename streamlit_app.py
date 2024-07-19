@@ -33,6 +33,9 @@ if 'quiz_answered' not in st.session_state:
 if 'answer_button_disabled' not in st.session_state:
     st.session_state.answer_button_disabled = False
 
+# スコアリセット済みかどうかのフラグ
+score_reset_done = False
+
 words_df = load_data()
 
 # 制限時間（秒）
@@ -125,13 +128,17 @@ if 'selected_word' in st.session_state:
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
 
+        # スコアリセット済みフラグを設定
+        score_reset_done = True
+
 # 回答がある場合は解答ボタンを無効化する
 if st.session_state.quiz_answered:
     st.button('解答する', disabled=True)
 
-# スコアリセットのチェックボックス
-if st.checkbox("スコアをリセットする"):
-    st.session_state.score = 0
+# スコアリセットのチェックボックス（一度だけ表示）
+if not score_reset_done:
+    if st.checkbox("スコアをリセットする"):
+        st.session_state.score = 0
 
 # タイマーの更新（1秒ごと）
 while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
