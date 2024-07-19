@@ -136,10 +136,9 @@ if 'selected_word' in st.session_state:
 if st.session_state.quiz_answered:
     st.button('解答する', disabled=True)
 
-# スコアリセットのボタン（一度だけ表示）
-if not st.session_state.quiz_answered and st.session_state.start_time is not None:
-    if st.button("スコアをリセットする"):
-        st.session_state.score = 0
+# 解答ボタンの表示
+if not st.session_state.quiz_answered and 'selected_word' in st.session_state:
+    st.button('解答する')
 
 # タイマーの更新（1秒ごと）
 while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
