@@ -132,4 +132,3 @@ if st.session_state.quiz_answered:
 # スコアリセットボタンの設置
 if st.button("スコアリセット"):
     st.session_state.score = 0
-
