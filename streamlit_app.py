@@ -117,7 +117,7 @@ if 'selected_word' in st.session_state:
         else:
             feedback_container.error(f"不正解です。")
             st.write(f"正解は {st.session_state.correct_answer}")
-            st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
+            st.session_state.score =st.session_state.score - 10 # 不正解の場合に点数を減らす
         
         # 解答後にフィードバックをクリア
         st.session_state.feedback_container = feedback_container
