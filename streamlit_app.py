@@ -90,23 +90,18 @@ if 'selected_word' in st.session_state:
         elapsed_time = time.time() - start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
-        # タイマーの更新（1秒ごと）
-while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
-    # 残り時間を計算
-    elapsed_time = time.time() - st.session_state.start_time
-    remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-    
-    # タイマーを表示
-    time_container.title(f"残り時間: {int(remaining_time)} 秒")
+        # タイマーの表示
+        time_container.markdown(f"<h2 id='timer' style='text-align: center;'>残り時間: {int(remaining_time)} 秒</h2>", unsafe_allow_html=True)
+
         # 残り時間が0になったら自動で回答ボタンを無効化
-    if remaining_time == 0:
+        if remaining_time == 0:
             st.session_state.quiz_answered = True
             st.session_state.answer_button_disabled = True
 
         # 選択肢の表示
-    quiz_answer = st.radio("選択肢", st.session_state.choices)
+        quiz_answer = st.radio("選択肢", st.session_state.choices)
         
-    if not st.session_state.answer_button_disabled:
+        if not st.session_state.answer_button_disabled:
             if st.button('解答する'):
                 st.session_state.quiz_answered = True
                 st.session_state.selected_choice = quiz_answer
@@ -137,3 +132,21 @@ if st.session_state.quiz_answered:
 # スコアリセットボタンの設置
 if st.button("スコアリセット"):
     st.session_state.score = 0
+
+# JavaScriptを使って時間の経過を1秒ごとに更新する
+js_code = """
+<script>
+function updateTimer() {
+    var timerElement = document.getElementById("timer");
+    var remainingTime = parseInt(timerElement.textContent.split(":")[1].trim());
+    if (remainingTime > 0) {
+        timerElement.textContent = "残り時間: " + (remainingTime - 1) + " 秒";
+    }
+    setTimeout(updateTimer, 1000);
+}
+updateTimer();
+</script>
+"""
+
+# HTMLコンポーネントにJavaScriptコードを埋め込んでタイマーを更新
+st.markdown(js_code, unsafe_allow_html=True)
