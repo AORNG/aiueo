@@ -61,22 +61,25 @@ if st.button('ガチャを引く！'):
     subset_df = words_df[words_df['レア度'] == chosen_rarity]
     selected_word = subset_df.sample().iloc[0]
 
-    if st.button("スコアリセット"):
-        st.session_state.score = 0
-    
-    # クイズ用の選択肢を生成
-    other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
-    choices = other_words['単語'].tolist() + [selected_word['単語']]
-    np.random.shuffle(choices)
-    
-    # セッションステートに選択された単語とクイズ選択肢を保存
-    st.session_state.selected_word = selected_word
-    st.session_state.choices = choices
-    st.session_state.correct_answer = selected_word['単語']
-    st.session_state.display_meaning = False
-    st.session_state.quiz_answered = False
-    st.session_state.start_time = time.time()  # クイズの開始時刻を記録
-    st.session_state.answer_button_disabled = False  # 解答ボタンを有効化
+    # クイズが解答されていない場合にのみ問題をセットアップする
+    if not st.session_state.quiz_answered:
+        # スコアリセットボタンの表示と処理
+        if st.button("スコアリセット"):
+            st.session_state.score = 0
+        
+        # クイズ用の選択肢を生成
+        other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
+        choices = other_words['単語'].tolist() + [selected_word['単語']]
+        np.random.shuffle(choices)
+        
+        # セッションステートに選択された単語とクイズ選択肢を保存
+        st.session_state.selected_word = selected_word
+        st.session_state.choices = choices
+        st.session_state.correct_answer = selected_word['単語']
+        st.session_state.display_meaning = False
+        st.session_state.quiz_answered = False
+        st.session_state.start_time = time.time()  # クイズの開始時刻を記録
+        st.session_state.answer_button_disabled = False  # 解答ボタンを有効化
 
 # 点数の表示
 st.sidebar.header("スコア")
@@ -154,4 +157,3 @@ while 'selected_word' in st.session_state and not st.session_state.quiz_answered
         break
     
     time.sleep(1)  # 1秒待つ
-
