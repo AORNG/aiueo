@@ -132,14 +132,8 @@ if 'selected_word' in st.session_state:
         # タイマー停止
         st.session_state.start_time = None
 
-# 回答がある場合は解答ボタンを無効化する
-if st.session_state.quiz_answered:
-    st.button('解答する', disabled=True)
-
-# スコアリセットのボタン（一度だけ表示）
-if not st.session_state.quiz_answered and st.session_state.start_time is not None:
-    if st.button("スコアをリセットする"):
-        st.session_state.score = 0
+        # 解答ボタンを非表示にする
+        st.empty()
 
 # タイマーの更新（1秒ごと）
 while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
