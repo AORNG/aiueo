@@ -107,6 +107,7 @@ if 'selected_word' in st.session_state:
                 st.session_state.selected_choice = quiz_answer
                 st.session_state.answer_button_disabled = True  # 解答ボタンを無効化
 
+
     # クイズが解答された後の処理
     if st.session_state.quiz_answered:
         # 結果を表示
@@ -117,7 +118,7 @@ if 'selected_word' in st.session_state:
         else:
             feedback_container.error(f"不正解です。")
             st.write(f"正解は {st.session_state.correct_answer}")
-            st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
+            st.session_state.score = max(st.session_state.score - 10)  # 不正解の場合に点数を減らす
         
         # 解答後にフィードバックをクリア
         st.session_state.feedback_container = feedback_container
