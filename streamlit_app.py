@@ -100,9 +100,6 @@ if 'selected_word' in st.session_state:
         elapsed_time = datetime.now() - start_time if start_time is not None else timedelta(seconds=quiz_timeout_duration)
         remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
         
-        # タイマーの表示
-        time_container.text(f"残り時間: {int(remaining_time)} 秒")
-
         # 残り時間が0になったら自動で回答ボタンを無効化
         if remaining_time == 0:
             st.session_state.quiz_answered = True
@@ -140,5 +137,5 @@ if 'selected_word' in st.session_state:
 
     # タイマーの更新（1秒ごと）
     if not st.session_state.quiz_answered:
-        st.header(f"残り時間: {int(remaining_time)} 秒")
+        st.title(f"残り時間: {int(remaining_time)} 秒")
 
