@@ -137,5 +137,12 @@ if 'selected_word' in st.session_state:
 
     # タイマーの更新（1秒ごと）
     if not st.session_state.quiz_answered:
+        time.sleep(1)  # 1秒間待機して画面の更新を行う
+
+        # 残り時間を計算
+        elapsed_time = datetime.now() - start_time if start_time is not None else timedelta(seconds=quiz_timeout_duration)
+        remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
+
+        # 残り時間の表示
         st.title(f"残り時間: {int(remaining_time)} 秒")
 
