@@ -91,7 +91,7 @@ if 'selected_word' in st.session_state:
 
     if not st.session_state.quiz_answered:
         # 残り時間を計算
-        elapsed_time = time.time() - start_time
+        elapsed_time = time.time() - start_time if start_time is not None else 0
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
         # タイマーの表示
