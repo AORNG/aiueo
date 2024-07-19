@@ -91,7 +91,7 @@ if 'selected_word' in st.session_state:
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
         # タイマーの表示
-        time_container.text(f"残り時間: {int(remaining_time)} 秒")
+        time_container.markdown(f"残り時間: **{int(remaining_time)}** 秒")
 
         # 残り時間が0になったら自動で回答ボタンを無効化
         if remaining_time == 0:
@@ -117,7 +117,7 @@ if 'selected_word' in st.session_state:
         else:
             feedback_container.error(f"不正解です。")
             st.write(f"正解は {st.session_state.correct_answer}")
-            st.session_state.score = max(st.session_state.score - 10)  # 不正解の場合に点数を減らす
+            st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
         
         # 解答後にフィードバックをクリア
         st.session_state.feedback_container = feedback_container
@@ -133,19 +133,3 @@ if st.session_state.quiz_answered:
 if st.button("スコアリセット"):
     st.session_state.score = 0
 
-# タイマーの更新（1秒ごと）
-while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
-    # 残り時間を計算
-    elapsed_time = time.time() - st.session_state.start_time
-    remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-    
-    # タイマーを表示
-    time_container.title(f"残り時間: {int(remaining_time)} 秒")
-    
-    # 残り時間が0になったら自動で回答ボタンを無効化
-    if remaining_time == 0:
-        st.session_state.quiz_answered = True
-        st.session_state.answer_button_disabled = True
-        break
-    
-    time.sleep(1)  # 1秒待つ
