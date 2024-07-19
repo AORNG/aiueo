@@ -60,6 +60,9 @@ if st.button('ガチャを引く！'):
     chosen_rarity = np.random.choice(list(rarity_probs.keys()), p=list(rarity_probs.values()))
     subset_df = words_df[words_df['レア度'] == chosen_rarity]
     selected_word = subset_df.sample().iloc[0]
+
+    if st.button("スコアリセット"):
+        st.session_state.score = 0
     
     # クイズ用の選択肢を生成
     other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
@@ -152,5 +155,3 @@ while 'selected_word' in st.session_state and not st.session_state.quiz_answered
     
     time.sleep(1)  # 1秒待つ
 
-if st.button("スコアリセット"):
-    st.session_state.score = 0
