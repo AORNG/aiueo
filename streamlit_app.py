@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import time
+from datetime import datetime, timedelta
 
 # Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
@@ -78,7 +79,7 @@ if st.button('ガチャを引く！'):
         st.session_state.correct_answer = selected_word['単語']
         st.session_state.display_meaning = False
         st.session_state.quiz_answered = False
-        st.session_state.start_time = time.time()  # クイズの開始時刻を記録
+        st.session_state.start_time = datetime.now()  # クイズの開始時刻を記録
         st.session_state.answer_button_disabled = False  # 解答ボタンを有効化
 
 # 点数の表示
@@ -97,8 +98,8 @@ if 'selected_word' in st.session_state:
 
     if not st.session_state.quiz_answered:
         # 残り時間を計算
-        elapsed_time = time.time() - start_time if start_time is not None else 0
-        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+        elapsed_time = datetime.now() - start_time if start_time is not None else timedelta(seconds=quiz_timeout_duration)
+        remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
         
         # タイマーの表示
         time_container.text(f"残り時間: {int(remaining_time)} 秒")
@@ -142,8 +143,8 @@ if 'selected_word' in st.session_state:
 if 'selected_word' in st.session_state and not st.session_state.quiz_answered:
     # 残り時間を計算
     start_time = st.session_state.start_time
-    elapsed_time = time.time() - start_time if start_time else 0
-    remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+    elapsed_time = datetime.now() - start_time if start_time else timedelta(seconds=quiz_timeout_duration)
+    remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
 
     # タイマーを表示
     st.title(f"残り時間: {int(remaining_time)} 秒")
