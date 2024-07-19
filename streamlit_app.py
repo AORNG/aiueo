@@ -90,18 +90,23 @@ if 'selected_word' in st.session_state:
         elapsed_time = time.time() - start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
-        # タイマーの表示
-        time_container.markdown(f"残り時間: **{int(remaining_time)}** 秒")
-
+        # タイマーの更新（1秒ごと）
+while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
+    # 残り時間を計算
+    elapsed_time = time.time() - st.session_state.start_time
+    remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+    
+    # タイマーを表示
+    time_container.title(f"残り時間: {int(remaining_time)} 秒")
         # 残り時間が0になったら自動で回答ボタンを無効化
-        if remaining_time == 0:
+    if remaining_time == 0:
             st.session_state.quiz_answered = True
             st.session_state.answer_button_disabled = True
 
         # 選択肢の表示
-        quiz_answer = st.radio("選択肢", st.session_state.choices)
+    quiz_answer = st.radio("選択肢", st.session_state.choices)
         
-        if not st.session_state.answer_button_disabled:
+    if not st.session_state.answer_button_disabled:
             if st.button('解答する'):
                 st.session_state.quiz_answered = True
                 st.session_state.selected_choice = quiz_answer
