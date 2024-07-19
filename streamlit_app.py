@@ -61,12 +61,12 @@ if st.button('ガチャを引く！'):
     subset_df = words_df[words_df['レア度'] == chosen_rarity]
     selected_word = subset_df.sample().iloc[0]
 
+    # スコアリセットボタンの表示と処理
+    if st.button("スコアリセット"):
+        st.session_state.score = 0
+
     # クイズが解答されていない場合にのみ問題をセットアップする
     if not st.session_state.quiz_answered:
-        # スコアリセットボタンの表示と処理
-        if st.button("スコアリセット"):
-            st.session_state.score = 0
-        
         # クイズ用の選択肢を生成
         other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
         choices = other_words['単語'].tolist() + [selected_word['単語']]
@@ -137,9 +137,6 @@ if 'selected_word' in st.session_state:
 
         # タイマー停止
         st.session_state.start_time = None
-
-        # 解答ボタンを非表示にする
-        st.empty()
 
 # タイマーの更新（1秒ごと）
 while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
