@@ -130,7 +130,8 @@ if 'selected_word' in st.session_state:
                 st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
 
         # 次の問題に移った時にフィードバックを非表示にする
-        st.session_state.quiz_answered = False 
+        st.session_state.quiz_answered = False
+ 
 
 
 # 回答がある場合は解答ボタンを無効化する
