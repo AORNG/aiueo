@@ -119,6 +119,7 @@ if 'selected_word' in st.session_state:
         if st.session_state.selected_choice is not None:
             if st.session_state.selected_choice == st.session_state.correct_answer:
                 st.write("正解!")
+                st.session_state.score = max(st.session_state.score + 10, 0)  # 不正解の場合に点数を減らす
         else:
             st.write("不正解")
             st.write(f"正解は {st.session_state.correct_answer}")
