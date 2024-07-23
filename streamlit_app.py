@@ -150,6 +150,7 @@ while 'selected_word' in st.session_state and not st.session_state.quiz_answered
         break
     
     time.sleep(1)  # 1秒待つ
+
 # スコアリセットボタンの設置
 if st.button("スコアリセット"):
     st.session_state.score = 0
