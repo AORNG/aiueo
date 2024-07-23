@@ -111,6 +111,10 @@ if 'selected_word' in st.session_state:
     if st.session_state.quiz_answered:
         # 結果を表示
         feedback_container = st.empty()
+        
+        # 解答後にフィードバックをクリア
+        st.session_state.feedback_container = feedback_container
+
         # Check if selected_choice exists in session_state, initialize if not
         if 'selected_choice' not in st.session_state:
             st.session_state.selected_choice = None  # Or initialize with some default value
@@ -119,17 +123,15 @@ if 'selected_word' in st.session_state:
         if st.session_state.selected_choice is not None:
             if st.session_state.selected_choice == st.session_state.correct_answer:
                 st.write("正解!")
-                st.session_state.score = max(st.session_state.score + 10, 0)  # 正解の場合に点数を追加
+                st.session_state.score += 10  # 正解の場合に点数を追加
             else:
                 st.write("不正解")
                 st.write(f"正解は {st.session_state.correct_answer}")
                 st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
-        
-        # 解答後にフィードバックをクリア
-        st.session_state.feedback_container = feedback_container
 
         # 次の問題に移った時にフィードバックを非表示にする
-        st.session_state.quiz_answered = False
+        st.session_state.quiz_answered = False 
+
 
 # 回答がある場合は解答ボタンを無効化する
 if st.session_state.quiz_answered:
