@@ -138,9 +138,11 @@ if 'selected_word' in st.session_state:
 
     # タイマーの更新（1秒ごと）
     if not st.session_state.quiz_answered:
+        # タイマーの更新（1秒ごと）
+        while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
         # 残り時間を計算
-        elapsed_time = datetime.now() - start_time if start_time is not None else timedelta(seconds=quiz_timeout_duration)
-        remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
+            elapsed_time = datetime.now() - start_time if start_time is not None else timedelta(seconds=quiz_timeout_duration)
+            remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
 
         # 残り時間の表示
         time_container.title(f"残り時間: {int(remaining_time)} 秒")
