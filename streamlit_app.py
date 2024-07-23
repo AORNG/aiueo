@@ -134,9 +134,6 @@ if 'selected_word' in st.session_state:
 if st.session_state.quiz_answered:
     st.button('解答する', disabled=True)
 
-# スコアリセットボタンの設置
-if st.button("スコアリセット"):
-    st.session_state.score = 0
 # タイマーの更新（1秒ごと）
 while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
     # 残り時間を計算
@@ -153,3 +150,6 @@ while 'selected_word' in st.session_state and not st.session_state.quiz_answered
         break
     
     time.sleep(1)  # 1秒待つ
+# スコアリセットボタンの設置
+if st.button("スコアリセット"):
+    st.session_state.score = 0
