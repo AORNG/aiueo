@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+import time
 
 # Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
@@ -33,10 +33,6 @@ if 'quiz_answered' not in st.session_state:
 if 'answer_button_disabled' not in st.session_state:
     st.session_state.answer_button_disabled = False
 
-# タイマーの初期化
-if 'start_time' not in st.session_state:
-    st.session_state.start_time = None
-
 words_df = load_data()
 
 # 制限時間（秒）
@@ -60,26 +56,20 @@ if st.button('ガチャを引く！'):
     chosen_rarity = np.random.choice(list(rarity_probs.keys()), p=list(rarity_probs.values()))
     subset_df = words_df[words_df['レア度'] == chosen_rarity]
     selected_word = subset_df.sample().iloc[0]
-
-    # クイズが解答されていない場合にのみ問題をセットアップする
-    if not st.session_state.quiz_answered:
-        # スコアリセットボタンの表示と処理
-        if st.button("スコアリセット"):
-            st.session_state.score = 0
-
-        # クイズ用の選択肢を生成
-        other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
-        choices = other_words['単語'].tolist() + [selected_word['単語']]
-        np.random.shuffle(choices)
-        
-        # セッションステートに選択された単語とクイズ選択肢を保存
-        st.session_state.selected_word = selected_word
-        st.session_state.choices = choices
-        st.session_state.correct_answer = selected_word['単語']
-        st.session_state.display_meaning = False
-        st.session_state.quiz_answered = False
-        st.session_state.start_time = datetime.now()  # クイズの開始時刻を記録
-        st.session_state.answer_button_disabled = False  # 解答ボタンを有効化
+    
+    # クイズ用の選択肢を生成
+    other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
+    choices = other_words['単語'].tolist() + [selected_word['単語']]
+    np.random.shuffle(choices)
+    
+    # セッションステートに選択された単語とクイズ選択肢を保存
+    st.session_state.selected_word = selected_word
+    st.session_state.choices = choices
+    st.session_state.correct_answer = selected_word['単語']
+    st.session_state.display_meaning = False
+    st.session_state.quiz_answered = False
+    st.session_state.start_time = time.time()  # クイズの開始時刻を記録
+    st.session_state.answer_button_disabled = False  # 解答ボタンを有効化
 
 # 点数の表示
 st.sidebar.header("スコア")
@@ -97,9 +87,12 @@ if 'selected_word' in st.session_state:
 
     if not st.session_state.quiz_answered:
         # 残り時間を計算
-        elapsed_time = datetime.now() - start_time if start_time is not None else timedelta(seconds=quiz_timeout_duration)
-        remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
+        elapsed_time = time.time() - start_time
+        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         
+        # タイマーの表示
+        time_container.text(f"残り時間: {int(remaining_time)} 秒")
+
         # 残り時間が0になったら自動で回答ボタンを無効化
         if remaining_time == 0:
             st.session_state.quiz_answered = True
@@ -118,14 +111,13 @@ if 'selected_word' in st.session_state:
     if st.session_state.quiz_answered:
         # 結果を表示
         feedback_container = st.empty()
-        if 'selected_choice' in st.session_state and 'correct_answer' in st.session_state:
-            if st.session_state.selected_choice == st.session_state.correct_answer:
-                st.session_state.score += 10  # 正解の場合に点数を追加
-                feedback_container.success("正解です！")
-            else:
-                feedback_container.error(f"不正解です。")
-                st.write(f"正解は {st.session_state.correct_answer}")
-                st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
+        if st.session_state.selected_choice == st.session_state.correct_answer:
+            st.session_state.score += 10  # 正解の場合に点数を追加
+            feedback_container.success("正解です！")
+        else:
+            feedback_container.error(f"不正解です。")
+            st.write(f"正解は {st.session_state.correct_answer}")
+            st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
         
         # 解答後にフィードバックをクリア
         st.session_state.feedback_container = feedback_container
@@ -133,16 +125,26 @@ if 'selected_word' in st.session_state:
         # 次の問題に移った時にフィードバックを非表示にする
         st.session_state.quiz_answered = False
 
-        # タイマー停止
-        st.session_state.start_time = None
+# 回答がある場合は解答ボタンを無効化する
+if st.session_state.quiz_answered:
+    st.button('解答する', disabled=True)
 
-    # タイマーの更新（1秒ごと）
-    if not st.session_state.quiz_answered:
-        # タイマーの更新（1秒ごと）
-        while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
-        # 残り時間を計算
-            elapsed_time = datetime.now() - start_time if start_time is not None else timedelta(seconds=quiz_timeout_duration)
-            remaining_time = max(quiz_timeout_duration - elapsed_time.total_seconds(), 0)
-
-        # 残り時間の表示
-        time_container.title(f"残り時間: {int(remaining_time)} 秒")
+# スコアリセットボタンの設置
+if st.button("スコアリセット"):
+    st.session_state.score = 0
+# タイマーの更新（1秒ごと）
+while 'selected_word' in st.session_state and not st.session_state.quiz_answered:
+    # 残り時間を計算
+    elapsed_time = time.time() - st.session_state.start_time
+    remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+    
+    # タイマーを表示
+    time_container.title(f"残り時間: {int(remaining_time)} 秒")
+    
+    # 残り時間が0になったら自動で回答ボタンを無効化
+    if remaining_time == 0:
+        st.session_state.quiz_answered = True
+        st.session_state.answer_button_disabled = True
+        break
+    
+    time.sleep(1)  # 1秒待つ
