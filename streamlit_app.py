@@ -111,11 +111,16 @@ if 'selected_word' in st.session_state:
     if st.session_state.quiz_answered:
         # 結果を表示
         feedback_container = st.empty()
-        if st.session_state.selected_choice == st.session_state.correct_answer:
-            st.session_state.score += 10  # 正解の場合に点数を追加
-            feedback_container.success("正解です！")
+        # Check if selected_choice exists in session_state, initialize if not
+        if 'selected_choice' not in st.session_state:
+            st.session_state.selected_choice = None  # Or initialize with some default value
+
+        # Example usage
+        if st.session_state.selected_choice is not None:
+            if st.session_state.selected_choice == st.session_state.correct_answer:
+                st.write("正解!")
         else:
-            feedback_container.error(f"不正解です。")
+            st.write("不正解")
             st.write(f"正解は {st.session_state.correct_answer}")
             st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
         
