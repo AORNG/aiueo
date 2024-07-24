@@ -19,11 +19,7 @@ st.write('がんばってください！')
 # データの読み込み（Excelファイルの読み込みをサンプルとしています）
 @st.cache
 def load_data():
-    try:
-        return pd.read_excel("生物ガチャ.xlsx")
-    except FileNotFoundError:
-        st.error("データファイルが見つかりませんでした。ファイル名やパスを確認してください。")
-        return pd.DataFrame()  # 空のDataFrameを返す
+    return pd.read_excel("生物ガチャ.xlsx")
 
 # スコアの初期化とセッション状態の管理
 if 'score' not in st.session_state:
@@ -48,40 +44,34 @@ def clear_feedback():
 
 # ガチャ機能
 if st.button('ガチャを引く！'):
-    if words_df.empty:
-        st.warning("データが正しく読み込まれていません。ファイルを確認して再度試してください。")
-    else:
-        clear_feedback()  # フィードバックをクリア
-        
-        # レア度ごとの確率設定
-        rarity_probs = {
-            'N': 0.4,
-            'R': 0.3,
-            'SR': 0.2,
-            'SSR': 0.1
-        }
-        
-        try:
-            # レア度に応じて単語を選択
-            chosen_rarity = np.random.choice(list(rarity_probs.keys()), p=list(rarity_probs.values()))
-            subset_df = words_df[words_df['レア度'] == chosen_rarity]
-            selected_word = subset_df.sample().iloc[0]
-            
-            # クイズ用の選択肢を生成
-            other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
-            choices = other_words['単語'].tolist() + [selected_word['単語']]
-            np.random.shuffle(choices)
-            
-            # セッションステートに選択された単語とクイズ選択肢を保存
-            st.session_state.selected_word = selected_word
-            st.session_state.choices = choices
-            st.session_state.correct_answer = selected_word['単語']
-            st.session_state.display_meaning = False
-            st.session_state.quiz_answered = False
-            st.session_state.start_time = time.time()  # クイズの開始時刻を記録
-            st.session_state.answer_button_disabled = False  # 解答ボタンを有効化
-        except IndexError:
-            st.error("選択肢を生成する際にエラーが発生しました。もう一度試してください。")
+    clear_feedback()  # フィードバックをクリア
+    
+    # レア度ごとの確率設定
+    rarity_probs = {
+        'N': 0.4,
+        'R': 0.3,
+        'SR': 0.2,
+        'SSR': 0.1
+    }
+    
+    # レア度に応じて単語を選択
+    chosen_rarity = np.random.choice(list(rarity_probs.keys()), p=list(rarity_probs.values()))
+    subset_df = words_df[words_df['レア度'] == chosen_rarity]
+    selected_word = subset_df.sample().iloc[0]
+    
+    # クイズ用の選択肢を生成
+    other_words = words_df[words_df['説明'] != selected_word['説明']].sample(3)
+    choices = other_words['単語'].tolist() + [selected_word['単語']]
+    np.random.shuffle(choices)
+    
+    # セッションステートに選択された単語とクイズ選択肢を保存
+    st.session_state.selected_word = selected_word
+    st.session_state.choices = choices
+    st.session_state.correct_answer = selected_word['単語']
+    st.session_state.display_meaning = False
+    st.session_state.quiz_answered = False
+    st.session_state.start_time = time.time()  # クイズの開始時刻を記録
+    st.session_state.answer_button_disabled = False  # 解答ボタンを有効化
 
 # スコアの表示とリセット
 st.sidebar.header("スコア")
@@ -104,7 +94,7 @@ if 'selected_word' in st.session_state:
     time_container.title(f"残り時間: {int(remaining_time)} 秒")
 
     if not st.session_state.quiz_answered:
-        # 解答選択肢の表示（ボタンとして表示）
+        # 解答選択肢の表示（ボタンではなくテキストとして表示）
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             if st.button(choices[0]):
