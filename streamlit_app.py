@@ -122,7 +122,7 @@ if 'selected_word' in st.session_state:
                 feedback_container.success("正解!")
                 st.session_state.score += 10  # 正解の場合に点数を追加
             else:
-                feedback_container.error("不正解"
+                feedback_container.error("不正解",
                                          f"正解は {st.session_state.correct_answer}")
                 st.session_state.score = max(st.session_state.score - 10, 0)  # 不正解の場合に点数を減らす
 
