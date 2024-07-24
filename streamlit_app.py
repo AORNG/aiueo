@@ -94,7 +94,7 @@ if 'selected_word' in st.session_state:
     time_container.title(f"残り時間: {int(remaining_time)} 秒")
 
     if not st.session_state.quiz_answered:
-        # 解答選択肢の表示（ボタンとして表示）
+        # 解答選択肢の表示（横に並べて表示）
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             if st.button(choices[0]):
