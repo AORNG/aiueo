@@ -109,7 +109,7 @@ if 'selected_word' in st.session_state:
                 st.session_state.selected_choice = choices[3]
 
         # 解答ボタンの表示と処理
-        if not st.session_state.answer_button_disabled and st.session_state.selected_choice is not None:
+        if not st.session_state.answer_button_disabled and 'selected_choice' in st.session_state:
             if st.button('解答する'):
                 st.session_state.quiz_answered = True
                 st.session_state.answer_button_disabled = True  # 解答ボタンを無効化
