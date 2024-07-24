@@ -3,19 +3,23 @@ import pandas as pd
 import numpy as np
 import time
 
-# データの読み込み（Excelファイルの読み込みをサンプルとしています）
-@st.cache
-def load_data():
-    return pd.read_excel("生物ガチャ.xlsx")
-
-# Streamlitアプリケーションのタイトルとスタイル設定
+# Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
 css = """
 h1 {
     color: #00CED1; /* タイトルの文字色を変更 */
 }
 """
+
+# CSSを適用する
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+st.write('生物用語をランダムに表示して、勉強をサポートします！')
+st.write('がんばってください！')
+
+# データの読み込み（Excelファイルの読み込みをサンプルとしています）
+@st.cache
+def load_data():
+    return pd.read_excel("生物ガチャ.xlsx")
 
 # スコアの初期化とセッション状態の管理
 if 'score' not in st.session_state:
@@ -113,10 +117,11 @@ if 'selected_word' in st.session_state:
                 # 正誤判定とフィードバックの表示
                 if st.session_state.selected_choice == st.session_state.correct_answer:
                     st.session_state.score += 10
-                    st.success("正解!")
+                    st.success("正解です！")
                 else:
                     st.session_state.score = max(st.session_state.score - 10, 0)
-                    st.error("不正解", f"正解は {st.session_state.correct_answer}")
+                    st.error("不正解です。")
+                    st.write(f"正解は {st.session_state.correct_answer}")
 
     # タイマーの更新（1秒ごと）
     while remaining_time > 0 and not st.session_state.quiz_answered:
