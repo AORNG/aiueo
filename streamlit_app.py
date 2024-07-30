@@ -94,29 +94,22 @@ if 'selected_word' in st.session_state:
     time_container.title(f"残り時間: {int(remaining_time)} 秒")
 
     if not st.session_state.quiz_answered:
-        # 解答選択肢を横に4つ並べる
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            if 'choices' in st.session_state and len(st.session_state.choices) > 0 and st.button(st.session_state.choices[0]):
-                st.session_state.selected_choice = st.session_state.choices[0]
-        with col2:
-            if 'choices' in st.session_state and len(st.session_state.choices) > 1 and st.button(st.session_state.choices[1]):
-                st.session_state.selected_choice = st.session_state.choices[1]
-        with col3:
-            if 'choices' in st.session_state and len(st.session_state.choices) > 2 and st.button(st.session_state.choices[2]):
-                st.session_state.selected_choice = st.session_state.choices[2]
-        with col4:
-            if 'choices' in st.session_state and len(st.session_state.choices) > 3 and st.button(st.session_state.choices[3]):
-                st.session_state.selected_choice = st.session_state.choices[3]
+        # 解答選択肢をチェックボックスで表示
+        checked = [False] * len(st.session_state.choices)
+        checked[0] = st.checkbox(st.session_state.choices[0])
+        checked[1] = st.checkbox(st.session_state.choices[1])
+        checked[2] = st.checkbox(st.session_state.choices[2])
+        checked[3] = st.checkbox(st.session_state.choices[3])
 
         # 解答ボタンの表示と処理
-        if not st.session_state.answer_button_disabled and 'selected_choice' in st.session_state:
+        if not st.session_state.answer_button_disabled and any(checked):
             if st.button('解答する'):
                 st.session_state.quiz_answered = True
                 st.session_state.answer_button_disabled = True  # 解答ボタンを無効化
                 
-                # 正誤判定とフィードバックの表示
-                if st.session_state.selected_choice == st.session_state.correct_answer:
+                # チェックされた選択肢を判定
+                selected_choices = [choice for i, choice in enumerate(st.session_state.choices) if checked[i]]
+                if st.session_state.correct_answer in selected_choices:
                     st.session_state.score += 10
                     st.success("正解です！")
                 else:
