@@ -97,17 +97,17 @@ if 'selected_word' in st.session_state:
         # 解答選択肢を横に4つ並べる
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            if st.button(choices[0]):
-                st.session_state.selected_choice = choices[0]
+            if 'choices' in st.session_state and len(st.session_state.choices) > 0 and st.button(st.session_state.choices[0]):
+                st.session_state.selected_choice = st.session_state.choices[0]
         with col2:
-            if st.button(choices[1]):
-                st.session_state.selected_choice = choices[1]
+            if 'choices' in st.session_state and len(st.session_state.choices) > 1 and st.button(st.session_state.choices[1]):
+                st.session_state.selected_choice = st.session_state.choices[1]
         with col3:
-            if st.button(choices[2]):
-                st.session_state.selected_choice = choices[2]
+            if 'choices' in st.session_state and len(st.session_state.choices) > 2 and st.button(st.session_state.choices[2]):
+                st.session_state.selected_choice = st.session_state.choices[2]
         with col4:
-            if st.button(choices[3]):
-                st.session_state.selected_choice = choices[3]
+            if 'choices' in st.session_state and len(st.session_state.choices) > 3 and st.button(st.session_state.choices[3]):
+                st.session_state.selected_choice = st.session_state.choices[3]
 
         # 解答ボタンの表示と処理
         if not st.session_state.answer_button_disabled and 'selected_choice' in st.session_state:
