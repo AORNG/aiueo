@@ -4,7 +4,7 @@ import numpy as np
 import time
 
 # タブの選択
-tab_selection = st.sidebar.radio("Navigation", ["第一章、第二章", "スコア"])
+tab_selection = st.sidebar.radio("Navigation", ["第一章、第二章", "スコア", "スコアリセット"])
 
 # Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
@@ -49,12 +49,16 @@ def clear_feedback():
 col1, col2 = st.columns([2, 1])
 
 # スコアの表示とリセット
-st.sidebar.header("スコア")
-st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
-
+if tab_selection == "スコア":
+    with col1:
+        st.markdown("# スコア")
+        st.sidebar.header("スコア")
+        st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
+        if st.button("スコアリセット"):
+            st.session_state.score = 0
 
 # ガチャタブのコンテンツ
-if tab_selection == "第一章、第二章":
+elif tab_selection == "第一章、第二章":
     with col1:
         st.markdown("# 第一章、第二章")
         if st.button('ガチャを引く！'):
@@ -130,12 +134,4 @@ if tab_selection == "第一章、第二章":
             if remaining_time == 0:
                 st.session_state.quiz_answered = True
                 st.session_state.answer_button_disabled = True
-
-# スコアタブのコンテンツ
-elif tab_selection == "スコア":
-    with col1:
-        st.markdown("# スコア")
-        if st.button("スコアリセット"):
-            st.session_state.score = 0
-
 
