@@ -42,7 +42,7 @@ def clear_feedback():
     if 'feedback_container' in st.session_state:
         st.session_state.feedback_container.empty()
 
-col1,col2 = st.columns(2)
+col1, col2 = st.columns([2, 1])
 
 # ガチャ機能
 with col1:
@@ -94,22 +94,17 @@ with col1:
         time_container.title(f"残り時間: {int(remaining_time)} 秒")
 
         if not st.session_state.quiz_answered:
-            # 解答選択肢をチェックボックスで表示
-            checked = [False] * len(st.session_state.choices)
-            checked[0] = st.checkbox(st.session_state.choices[0])
-            checked[1] = st.checkbox(st.session_state.choices[1])
-            checked[2] = st.checkbox(st.session_state.choices[2])
-            checked[3] = st.checkbox(st.session_state.choices[3])
+            # 解答選択肢をラジオボタンで表示
+            selected_choice = st.radio("選択肢", st.session_state.choices)
 
             # 解答ボタンの表示と処理
-            if not st.session_state.answer_button_disabled and any(checked):
+            if not st.session_state.answer_button_disabled and selected_choice:
                 if st.button('解答する'):
                     st.session_state.quiz_answered = True
                     st.session_state.answer_button_disabled = True  # 解答ボタンを無効化
                     
-                    # チェックされた選択肢を判定
-                    selected_choices = [choice for i, choice in enumerate(st.session_state.choices) if checked[i]]
-                    if st.session_state.correct_answer in selected_choices:
+                    # 正誤判定とフィードバックの表示
+                    if selected_choice == st.session_state.correct_answer:
                         st.session_state.score += 10
                         st.success("正解です！")
                     else:
@@ -129,7 +124,6 @@ with col1:
             st.session_state.quiz_answered = True
             st.session_state.answer_button_disabled = True
 
-    with col2:
-        if st.button("スコアリセット"):
-                st.session_state.score = 0
-
+with col2:
+    if st.button("スコアリセット"):
+            st.session_state.score = 0
