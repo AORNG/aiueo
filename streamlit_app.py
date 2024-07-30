@@ -49,7 +49,7 @@ def clear_feedback():
 col1, col2 = st.columns([2, 1])
 
 # ガチャタブのコンテンツ
-if tab_selection == "ガチャ":
+if tab_selection == "第一章、第二章":
     with col1:
         st.markdown("# ガチャ")
         if st.button('ガチャを引く！'):
