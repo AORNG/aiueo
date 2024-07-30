@@ -43,9 +43,9 @@ if tab_selection == "第一章、第二章":
 
     col1, _ = st.columns([2, 1])
 
-    with col1:
-        st.markdown("# 第一章、第二章")
-        if st.button('ガチャを引く！'):
+    
+    st.markdown("# 第一章、第二章")
+    if st.button('ガチャを引く！'):
             # フィードバックをクリア
             st.session_state.quiz_answered = False
             st.session_state.answer_button_disabled = False
@@ -76,7 +76,7 @@ if tab_selection == "第一章、第二章":
             st.session_state.start_time = time.time()  # クイズの開始時刻を記録
 
         # クイズの表示と処理
-        if 'selected_word' in st.session_state:
+    if 'selected_word' in st.session_state:
             st.write("説明")
             st.header(st.session_state.selected_word['説明'])
             st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
