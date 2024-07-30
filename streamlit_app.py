@@ -3,7 +3,8 @@ import pandas as pd
 import numpy as np
 import time
 
-tab_selection=st.sidebar.radio("navigation",["第1章、第2章"])
+# タブの選択
+tab_selection = st.sidebar.radio("Navigation", ["ガチャ", "スコア"])
 
 # Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
@@ -44,12 +45,13 @@ def clear_feedback():
     if 'feedback_container' in st.session_state:
         st.session_state.feedback_container.empty()
 
+# 2列のレイアウトを作成
 col1, col2 = st.columns([2, 1])
 
+# ガチャタブのコンテンツ
 if tab_selection == "ガチャ":
-    st.markdown("# ガチャ")
-    # ガチャ機能
     with col1:
+        st.markdown("# ガチャ")
         if st.button('ガチャを引く！'):
             clear_feedback()  # フィードバックをクリア
             
@@ -128,6 +130,14 @@ if tab_selection == "ガチャ":
                 st.session_state.quiz_answered = True
                 st.session_state.answer_button_disabled = True
 
-    with col2:
+# スコアタブのコンテンツ
+elif tab_selection == "スコア":
+    with col1:
+        st.markdown("# スコア")
         if st.button("スコアリセット"):
-                st.session_state.score = 0
+            st.session_state.score = 0
+
+# 余白を追加してレイアウトを整えるための空のコンテナ
+with col2:
+    st.text("")  # ここには何も表示しない
+
