@@ -4,7 +4,7 @@ import numpy as np
 import time
 
 # タブの選択
-tab_selection = st.sidebar.radio("Navigation", ["第一章、第二章", "スコア"])
+tab_selection = st.sidebar.radio("Navigation", ["第一章、第二章", "第三章、第四章"])
 
 # Montserratフォントを使ったタイトルを表示
 st.markdown("<h1 style='text-align: center; font-family: Open Sans, sans-serif; color: #00CED1;'>生物単語ガチャ</h1>", unsafe_allow_html=True)
