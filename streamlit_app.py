@@ -48,6 +48,11 @@ def clear_feedback():
 # 2列のレイアウトを作成
 col1, col2 = st.columns([2, 1])
 
+# スコアの表示とリセット
+st.sidebar.header("スコア")
+st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
+
+
 # ガチャタブのコンテンツ
 if tab_selection == "第一章、第二章":
     with col1:
