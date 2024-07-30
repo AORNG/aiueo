@@ -124,7 +124,7 @@ if tab_selection == "第一章、第二章":
                 elapsed_time = time.time() - st.session_state.start_time
                 remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
                 time_container.title(f"残り時間: {int(remaining_time)} 秒")
-                time.sleep(1)  # 1秒待つ
+                time.sleep(0.1)  # 1秒待つ
 
             # 残り時間が0になった場合の処理
             if remaining_time == 0:
