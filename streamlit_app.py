@@ -80,10 +80,6 @@ with col1:
     st.sidebar.header("スコア")
     st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
 
-    with col2:
-        if st.button("スコアリセット"):
-            st.session_state.score = 0
-
     # クイズの表示と処理
     if 'selected_word' in st.session_state:
         st.write("説明")
@@ -132,3 +128,8 @@ with col1:
         if remaining_time == 0:
             st.session_state.quiz_answered = True
             st.session_state.answer_button_disabled = True
+
+        with col2:
+            if st.button("スコアリセット"):
+                st.session_state.score = 0
+
