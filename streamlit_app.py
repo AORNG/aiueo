@@ -130,3 +130,6 @@ elif tab_selection == "スコア":
         st.markdown("# スコア")
         if st.button("スコアリセット"):
             st.session_state.score = 0
+if st.sidebar.button("スコアリセット"):
+     st.session_state.score = 0
+     
