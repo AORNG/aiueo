@@ -119,17 +119,6 @@ if tab_selection == "第一章、第二章":
                 st.session_state.quiz_answered = True
                 st.session_state.answer_button_disabled = True
 
-# スコアタブのコンテンツ
-elif tab_selection == "スコア":
-    st.sidebar.header("スコア")
-    st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
-
-    col1, _ = st.columns([2, 1])
-
-    with col1:
-        st.markdown("# スコア")
-        if st.button("スコアリセット"):
-            st.session_state.score = 0
 if st.sidebar.button("スコアリセット"):
      st.session_state.score = 0
      
