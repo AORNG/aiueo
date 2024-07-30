@@ -97,26 +97,47 @@ if 'selected_word' in st.session_state:
         # 解答選択肢を横に4つ並べる
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            if 'choices' in st.session_state and len(st.session_state.choices) > 0 and st.button(st.session_state.choices[0]):
-                st.session_state.selected_choice = st.session_state.choices[0]
-        with col2:
-            if 'choices' in st.session_state and len(st.session_state.choices) > 1 and st.button(st.session_state.choices[1]):
-                st.session_state.selected_choice = st.session_state.choices[1]
-        with col3:
-            if 'choices' in st.session_state and len(st.session_state.choices) > 2 and st.button(st.session_state.choices[2]):
-                st.session_state.selected_choice = st.session_state.choices[2]
-        with col4:
-            if 'choices' in st.session_state and len(st.session_state.choices) > 3 and st.button(st.session_state.choices[3]):
-                st.session_state.selected_choice = st.session_state.choices[3]
-
-        # 解答ボタンの表示と処理
-        if not st.session_state.answer_button_disabled and 'selected_choice' in st.session_state:
-            if st.button('解答する'):
+            if st.button(choices[0]):
+                st.session_state.selected_choice = choices[0]
                 st.session_state.quiz_answered = True
-                st.session_state.answer_button_disabled = True  # 解答ボタンを無効化
-                
-                # 正誤判定とフィードバックの表示
-                if st.session_state.selected_choice == st.session_state.correct_answer:
+                st.session_state.answer_button_disabled = True
+                if choices[0] == st.session_state.correct_answer:
+                    st.session_state.score += 10
+                    st.success("正解です！")
+                else:
+                    st.session_state.score = max(st.session_state.score - 10, 0)
+                    st.error("不正解です。")
+                    st.write(f"正解は {st.session_state.correct_answer}")
+        with col2:
+            if st.button(choices[1]):
+                st.session_state.selected_choice = choices[1]
+                st.session_state.quiz_answered = True
+                st.session_state.answer_button_disabled = True
+                if choices[1] == st.session_state.correct_answer:
+                    st.session_state.score += 10
+                    st.success("正解です！")
+                else:
+                    st.session_state.score = max(st.session_state.score - 10, 0)
+                    st.error("不正解です。")
+                    st.write(f"正解は {st.session_state.correct_answer}")
+        with col3:
+            if st.button(choices[2]):
+                st.session_state.selected_choice = choices[2]
+                st.session_state.quiz_answered = True
+                st.session_state.answer_button_disabled = True
+                if choices[2] == st.session_state.correct_answer:
+                    st.session_state.score += 10
+                    st.success("正解です！")
+                else:
+                    st.session_state.score = max(st.session_state.score - 10, 0)
+                    st.error("不正解です。")
+                    st.write(f"正解は {st.session_state.correct_answer}")
+        with col4:
+            if st.button(choices[3]):
+                st.session_state.selected_choice = choices[3]
+                st.session_state.quiz_answered = True
+                st.session_state.answer_button_disabled = True
+                if choices[3] == st.session_state.correct_answer:
                     st.session_state.score += 10
                     st.success("正解です！")
                 else:
