@@ -129,7 +129,7 @@ with col1:
             st.session_state.quiz_answered = True
             st.session_state.answer_button_disabled = True
 
-        with col2:
-            if st.button("スコアリセット"):
+    with col2:
+        if st.button("スコアリセット"):
                 st.session_state.score = 0
 
