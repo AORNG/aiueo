@@ -138,4 +138,7 @@ elif tab_selection == "スコア":
         if st.button("スコアリセット"):
             st.session_state.score = 0
 
+# 余白を追加してレイアウトを整えるための空のコンテナ
+with col2:
+    st.text("")  # ここには何も表示しない
 
