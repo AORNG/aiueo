@@ -51,7 +51,7 @@ col1, col2 = st.columns([2, 1])
 # ガチャタブのコンテンツ
 if tab_selection == "第一章、第二章":
     with col1:
-        st.markdown("# ガチャ")
+        st.markdown("# 第一章、第二章")
         if st.button('ガチャを引く！'):
             clear_feedback()  # フィードバックをクリア
             
