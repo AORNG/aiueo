@@ -87,10 +87,6 @@ if tab_selection == "第一章、第二章":
             st.session_state.start_time = time.time()  # クイズの開始時刻を記録
             st.session_state.answer_button_disabled = False  # 解答ボタンを有効化
 
-        # スコアの表示とリセット
-        st.sidebar.header("スコア")
-        st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
-
         # クイズの表示と処理
         if 'selected_word' in st.session_state:
             st.write("説明")
