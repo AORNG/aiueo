@@ -36,6 +36,18 @@ words_df = load_data()
 # 制限時間（秒）
 quiz_timeout_duration = 10
 
+# スコアの表示
+st.sidebar.header("スコア")
+st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)   
+
+# スコアリセットボタンの処理
+if st.sidebar.button("スコアリセット"):
+    st.session_state.score = 0
+
+# ガチャタブのコンテンツ
+if tab_selection == "第一章、第二章":
+    st.write("第一章、第二章")
+
 # クイズを表示するためのトグルボタン
 show_quiz = st.button("ガチャを引く！")
 
@@ -113,14 +125,4 @@ if show_quiz:
         st.session_state.quiz_answered = True
         st.session_state.answer_button_disabled = True
 
-# スコアの表示
-st.sidebar.header("スコア")
-st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)   
 
-# スコアリセットボタンの処理
-if st.sidebar.button("スコアリセット"):
-    st.session_state.score = 0
-
-# ガチャタブのコンテンツ
-if tab_selection == "第一章、第二章":
-    st.write("第一章、第二章")
