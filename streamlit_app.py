@@ -103,29 +103,28 @@ if tab_selection == "第一章、第二章":
                 choice_index = row * num_cols + col
                 if choice_index < num_choices:
                     choice = st.session_state.choices[choice_index]
+                    button_key = f"choice_{choice_index}"  # ユニークなキーを生成
                     button_container = cols[col]  # ボタンを表示するためのコンテナ
-                    button_containers.append(button_container)
-                    if not st.session_state.quiz_answered:
-                        button_container.button(str(choice), key=choice_index)
+                    button_containers.append((button_key, button_container))
                     
-                    # ボタンがクリックされたときの処理
-                    if button_container.button(str(choice), key=choice_index):
-                        st.session_state.selected_choice = choice
-                        if choice == st.session_state.correct_answer:
-                            st.session_state.score += 10
-                            feedback_message.success("正解です！")
-                        else:
-                            st.session_state.score = max(st.session_state.score - 10, 0)
-                            feedback_message.error("不正解です。")
-                            feedback_message.write(f"正解は {st.session_state.correct_answer}")
-                        st.session_state.quiz_answered = True
-                        break  # ボタンがクリックされたらループを終了
+                    if not st.session_state.quiz_answered:
+                        if button_container.button(str(choice), key=button_key):
+                            st.session_state.selected_choice = choice
+                            if choice == st.session_state.correct_answer:
+                                st.session_state.score += 10
+                                feedback_message.success("正解です！")
+                            else:
+                                st.session_state.score = max(st.session_state.score - 10, 0)
+                                feedback_message.error("不正解です。")
+                                feedback_message.write(f"正解は {st.session_state.correct_answer}")
+                            st.session_state.quiz_answered = True
+                            break  # ボタンがクリックされたらループを終了
             if st.session_state.quiz_answered:
                 break  # 全ての行を処理する前にループを終了
 
         # 選択肢ボタンを削除する処理
         if st.session_state.quiz_answered:
-            for button_container in button_containers:
+            for button_key, button_container in button_containers:
                 button_container.empty()  # ボタンコンテナを空にする
 
         # タイマーの表示と更新
@@ -148,5 +147,5 @@ if tab_selection == "第一章、第二章":
                 st.session_state.quiz_answered = True
                 feedback_message.write(f"タイムアップ！正解は {st.session_state.correct_answer}")
                 # クイズ終了後に全ての選択肢を削除
-                for button_container in button_containers:
+                for button_key, button_container in button_containers:
                     button_container.empty()  # ボタンコンテナを空にする
