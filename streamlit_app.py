@@ -24,7 +24,7 @@ st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 # データの読み込み（Excelファイルの読み込みをサンプルとしています）
 @st.cache
 def load_data():
-    return pd.read_excel("生物ガチャ.xlsx")
+    return pd.read_excel("生物ガチャ用語.xlsx")
 
 # スコアの初期化とセッション状態の管理
 if 'score' not in st.session_state:
