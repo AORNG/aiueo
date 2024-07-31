@@ -90,8 +90,7 @@ if tab_selection == "第一章、第二章":
         elapsed_time = time.time() - start_time
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         time_container = st.empty()  # 時間を表示するための空のコンテナ
-        time_container.title(f"残り時間: {int(remaining_time)} 秒")
-
+        time_container.title(f"残り時間: {remaining_time:.1f} 秒")
         if not st.session_state.quiz_answered:
             # 解答選択肢をラジオボタンで表示
             selected_choice = st.radio("選択肢", st.session_state.choices)
@@ -117,6 +116,7 @@ if tab_selection == "第一章、第二章":
             remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
             time_container.title(f"残り時間: {int(remaining_time)} 秒")
             time.sleep(0.1)  # 0.1秒待つ
+
 
         # 残り時間が0になった場合の処理
         if remaining_time == 0:
