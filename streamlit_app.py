@@ -40,6 +40,10 @@ quiz_timeout_duration = 10
 if st.sidebar.button("スコアリセット"):
     st.session_state.score = 0
 
+# スコアをサイドバーに表示
+st.sidebar.header("スコア")
+st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
+
 # ガチャタブのコンテンツ
 if tab_selection == "第一章、第二章":
 
@@ -81,14 +85,12 @@ if tab_selection == "第一章、第二章":
         st.write("説明")
         st.header(st.session_state.selected_word['説明']+f"[レア度: {st.session_state.selected_word['レア度']}]")
 
-        # タイマーの表示と回答選択肢の表示
-        with st.sidebar.expander("クイズ情報"):
-            start_time = st.session_state.start_time
-            elapsed_time = time.time() - start_time
-            remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-            st.write(f"残り時間: {int(remaining_time)} 秒")
+        start_time = st.session_state.start_time
+        elapsed_time = time.time() - start_time
+        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+        st.sidebar.header(f"残り時間: {int(remaining_time)} 秒")
 
-            if not st.session_state.quiz_answered:
+        if not st.session_state.quiz_answered:
                 # 解答選択肢をラジオボタンで表示
                 selected_choice = st.radio("選択肢", st.session_state.choices)
 
@@ -118,6 +120,3 @@ if tab_selection == "第一章、第二章":
                 st.session_state.quiz_answered = True
                 st.session_state.answer_button_disabled = True
 
-# スコアをサイドバーに表示
-st.sidebar.header("スコア")
-st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
