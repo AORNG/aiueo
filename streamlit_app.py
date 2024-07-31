@@ -95,6 +95,8 @@ if tab_selection == "第一章、第二章":
 
         # 選択肢ボタンの状態管理とフィードバックの表示
         feedback_message = st.empty()  # フィードバックを表示するためのコンテナ
+        choice_buttons = []  # 選択肢ボタンのリストを保持
+        
         for row in range(num_rows):
             cols = st.columns(num_cols)
             for col in range(num_cols):
@@ -103,7 +105,10 @@ if tab_selection == "第一章、第二章":
                     choice = st.session_state.choices[choice_index]
                     # ボタンの状態を管理
                     button_disabled = st.session_state.quiz_answered
-                    if cols[col].button(str(choice), key=choice_index, disabled=button_disabled):
+                    button = cols[col].button(str(choice), key=choice_index, disabled=button_disabled)
+                    
+                    # ボタンがクリックされたときの処理
+                    if button:
                         st.session_state.selected_choice = choice
                         if choice == st.session_state.correct_answer:
                             st.session_state.score += 10
@@ -114,7 +119,13 @@ if tab_selection == "第一章、第二章":
                             feedback_message.write(f"正解は {st.session_state.correct_answer}")
                         st.session_state.quiz_answered = True
                         st.session_state.answer_button_disabled = True
+                        choice_buttons.append((cols[col], str(choice)))  # ボタンと選択肢を保存
                         break  # ボタンがクリックされたらループを終了
+        
+        # 選択肢ボタンをクリアするための処理
+        if st.session_state.quiz_answered:
+            for col, choice in choice_buttons:
+                col.button(str(choice), disabled=True)  # ボタンを無効化
 
         # タイマーの表示と更新
         if not st.session_state.quiz_answered:
