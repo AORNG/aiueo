@@ -95,9 +95,7 @@ if tab_selection == "第一章、第二章":
 
         # 選択肢ボタンの状態管理とフィードバックの表示
         feedback_message = st.empty()  # フィードバックを表示するためのコンテナ
-        
-        # 選択肢ボタンをクリアするためのリスト
-        buttons_to_remove = []
+        button_containers = []  # ボタンコンテナのリスト
         
         for row in range(num_rows):
             cols = st.columns(num_cols)
@@ -105,10 +103,13 @@ if tab_selection == "第一章、第二章":
                 choice_index = row * num_cols + col
                 if choice_index < num_choices:
                     choice = st.session_state.choices[choice_index]
-                    button = cols[col].button(str(choice), key=choice_index)
+                    button_container = cols[col]  # ボタンを表示するためのコンテナ
+                    button_containers.append(button_container)
+                    if not st.session_state.quiz_answered:
+                        button_container.button(str(choice), key=choice_index)
                     
                     # ボタンがクリックされたときの処理
-                    if button and not st.session_state.quiz_answered:
+                    if button_container.button(str(choice), key=choice_index):
                         st.session_state.selected_choice = choice
                         if choice == st.session_state.correct_answer:
                             st.session_state.score += 10
@@ -118,13 +119,14 @@ if tab_selection == "第一章、第二章":
                             feedback_message.error("不正解です。")
                             feedback_message.write(f"正解は {st.session_state.correct_answer}")
                         st.session_state.quiz_answered = True
-                        buttons_to_remove = [btn for btn in range(num_choices)]  # すべてのボタンを削除
                         break  # ボタンがクリックされたらループを終了
+            if st.session_state.quiz_answered:
+                break  # 全ての行を処理する前にループを終了
 
         # 選択肢ボタンを削除する処理
         if st.session_state.quiz_answered:
-            for button_index in buttons_to_remove:
-                st.empty()  # 空のコンテナを表示して選択肢を削除
+            for button_container in button_containers:
+                button_container.empty()  # ボタンコンテナを空にする
 
         # タイマーの表示と更新
         if not st.session_state.quiz_answered:
@@ -146,4 +148,5 @@ if tab_selection == "第一章、第二章":
                 st.session_state.quiz_answered = True
                 feedback_message.write(f"タイムアップ！正解は {st.session_state.correct_answer}")
                 # クイズ終了後に全ての選択肢を削除
-                st.empty()
+                for button_container in button_containers:
+                    button_container.empty()  # ボタンコンテナを空にする
