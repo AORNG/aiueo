@@ -49,7 +49,7 @@ if tab_selection == "第一章、第二章":
 
     col1, _ = st.columns([2, 1])
 
-    st.markdown("# 第一章、第二章")
+    st.write("第一章、第二章")
     if st.button('ガチャを引く！'):
         # フィードバックをクリア
         st.session_state.quiz_answered = False
