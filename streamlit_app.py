@@ -100,39 +100,37 @@ if tab_selection == "第一章、第二章":
                 if choice_index < num_choices:
                     choice = st.session_state.choices[choice_index]
                     if cols[col].button(str(choice)):
-                        st.session_state.selected_choice = choice
+                        # ボタンがクリックされた場合
+                        if choice == st.session_state.correct_answer:
+                            st.session_state.score += 10
+                            st.success("正解です！")
+                        else:
+                            st.session_state.score = max(st.session_state.score - 10, 0)
+                            st.error("不正解です。")
+                            st.write(f"正解は {st.session_state.correct_answer}")
+
                         st.session_state.quiz_answered = True
+                        st.session_state.answer_button_disabled = True
+                        st.session_state.selected_choice = choice
+                        break  # ボタンがクリックされたらループを終了
 
-        # タイマーの表示と回答選択肢の表示
-        start_time = st.session_state.start_time
-        elapsed_time = time.time() - start_time
-        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
-        time_container = st.empty()  # 時間を表示するための空のコンテナ
-        TIME = f"残り時間: {remaining_time:.1f} 秒"
-
-        # 解答ボタンの表示と処理
-        if not st.session_state.answer_button_disabled:
-            if st.button('解答する'):
-                st.session_state.quiz_answered = True
-                st.session_state.answer_button_disabled = True  # 解答ボタンを無効化
-                
-                # 正誤判定とフィードバックの表示
-                if st.session_state.selected_choice == st.session_state.correct_answer:
-                    st.session_state.score += 10
-                    st.success("正解です！")
-                else:
-                    st.session_state.score = max(st.session_state.score - 10, 0)
-                    st.error("不正解です。")
-                    st.write(f"正解は {st.session_state.correct_answer}")
-
-        # タイマーの更新（1秒ごと）
-        while remaining_time > 0 and not st.session_state.quiz_answered:
-            elapsed_time = time.time() - st.session_state.start_time
+        # タイマーの表示と更新
+        if not st.session_state.quiz_answered:
+            start_time = st.session_state.start_time
+            elapsed_time = time.time() - start_time
             remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+            time_container = st.empty()  # 時間を表示するための空のコンテナ
             time_container.title(f"残り時間: {remaining_time:.1f} 秒")
-            time.sleep(0.1)  # 0.1秒待つ
 
-        # 残り時間が0になった場合の処理
-        if remaining_time == 0:
-            st.session_state.quiz_answered = True
-            st.session_state.answer_button_disabled = True
+            # タイマーの更新（1秒ごと）
+            while remaining_time > 0 and not st.session_state.quiz_answered:
+                elapsed_time = time.time() - start_time
+                remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+                time_container.title(f"残り時間: {remaining_time:.1f} 秒")
+                time.sleep(0.1)  # 0.1秒待つ
+
+            # 残り時間が0になった場合の処理
+            if remaining_time == 0:
+                st.session_state.quiz_answered = True
+                st.session_state.answer_button_disabled = True
+                st.write(f"タイムアップ！正解は {st.session_state.correct_answer}")
