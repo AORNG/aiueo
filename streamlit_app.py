@@ -120,8 +120,7 @@ if tab_selection == "第一章、第二章":
             st.session_state.quiz_answered = True
             st.session_state.answer_button_disabled = True
 
-# スコアリセットボタン
-if st.sidebar.button("スコアリセット"):
-    st.session_state.score = 0
-
+    # スコアリセットボタンが押された時の処理
+    if st.sidebar.button("スコアリセット"):
+        st.session_state.score = 0
 
