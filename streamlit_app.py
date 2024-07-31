@@ -88,8 +88,20 @@ if tab_selection == "第一章、第二章":
         st.write("説明")
         st.header(st.session_state.selected_word['説明'] + f"[レア度: {st.session_state.selected_word['レア度']}]")
 
-        # 解答選択肢をラジオボタンで表示
-        selected_choice = st.radio("選択肢を選んでください", st.session_state.choices)
+        # 選択肢の表示を列としてレイアウト
+        num_choices = len(st.session_state.choices)
+        num_cols = 2  # 2列のレイアウトにする
+        num_rows = (num_choices + num_cols - 1) // num_cols  # 必要な行数を計算
+
+        for row in range(num_rows):
+            cols = st.columns(num_cols)
+            for col in range(num_cols):
+                choice_index = row * num_cols + col
+                if choice_index < num_choices:
+                    choice = st.session_state.choices[choice_index]
+                    if cols[col].button(str(choice)):
+                        st.session_state.selected_choice = choice
+                        st.session_state.quiz_answered = True
 
         # タイマーの表示と回答選択肢の表示
         start_time = st.session_state.start_time
@@ -105,7 +117,7 @@ if tab_selection == "第一章、第二章":
                 st.session_state.answer_button_disabled = True  # 解答ボタンを無効化
                 
                 # 正誤判定とフィードバックの表示
-                if selected_choice == st.session_state.correct_answer:
+                if st.session_state.selected_choice == st.session_state.correct_answer:
                     st.session_state.score += 10
                     st.success("正解です！")
                 else:
