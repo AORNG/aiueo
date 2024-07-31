@@ -40,6 +40,9 @@ quiz_timeout_duration = 10
 st.sidebar.header("スコア")
 st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)   
 
+# スコアリセットボタンが押さの処理れた時
+if st.sidebar.button("スコアリセット"):
+    st.session_state.score = 0
 
 # ガチャタブのコンテンツ
 if tab_selection == "第一章、第二章":
@@ -121,7 +124,5 @@ if tab_selection == "第一章、第二章":
             st.session_state.quiz_answered = True
             st.session_state.answer_button_disabled = True
 
-    # スコアリセットボタンが押された時の処理
-    if st.sidebar.button("スコアリセット"):
-        st.session_state.score = 0
+
 
