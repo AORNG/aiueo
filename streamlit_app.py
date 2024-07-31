@@ -48,7 +48,7 @@ st.sidebar.write("※ダブルクリックしてください")
 
 # ガチャタブのコンテンツ
 if tab_selection == "第一章、第二章":
-    st.header("顕微鏡,細胞,代謝")
+    st.header("顕微鏡,細胞,代謝",TIME)
 
     # クイズを表示するためのトグルボタン
     show_quiz = st.button("ガチャを引く！")
@@ -97,7 +97,7 @@ if tab_selection == "第一章、第二章":
         remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
         time_container = st.empty()  # 時間を表示するための空のコンテナ
         time_container.title(f"残り時間: {remaining_time:.1f} 秒")
-
+        TIME=f"残り時間: {remaining_time:.1f} 秒"
         # 解答ボタンの表示と処理
         if not st.session_state.answer_button_disabled:
             if st.button('解答する'):
