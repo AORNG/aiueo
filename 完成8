@@ -12,13 +12,9 @@ st.write('生物用語をランダムに表示して、勉強をサポートし�
 st.write('がんばってください！')
 
 # CSS
-css = """
-h1 {
-    color: #00CED1; /* タイトルの文字色を変更 */
+css = """h1 {color: #00CED1; /* タイトルの文字色を変更 */
     text-align: center;
-    font-family: Open Sans, sans-serif;
-}
-"""
+    font-family: Open Sans, sans-serif;}"""
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 # データの読み込み（Excelファイルの読み込みをサンプルとしています）
