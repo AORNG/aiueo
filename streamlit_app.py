@@ -148,3 +148,5 @@ if tab_selection == "第一章、第二章":
                 # クイズ終了後に全ての選択肢を削除
                 for button_key, button_container in button_containers:
                     button_container.empty()  # ボタンコンテナを空にする
+if tab_selection == "第三章、第四章":
+    st.header("製作中")
