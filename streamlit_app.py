@@ -93,32 +93,28 @@ if tab_selection == "第一章、第二章":
         num_cols = 2  # 2列のレイアウトにする
         num_rows = (num_choices + num_cols - 1) // num_cols  # 必要な行数を計算
 
-        # 選択肢ボタンの状態管理
-        choices_buttons = {}
+        # 選択肢ボタンの状態管理とフィードバックの表示
+        feedback_message = st.empty()  # フィードバックを表示するためのコンテナ
         for row in range(num_rows):
             cols = st.columns(num_cols)
             for col in range(num_cols):
                 choice_index = row * num_cols + col
                 if choice_index < num_choices:
                     choice = st.session_state.choices[choice_index]
-                    # ボタンを表示
-                    if not st.session_state.quiz_answered:
-                        if cols[col].button(str(choice)):
-                            st.session_state.selected_choice = choice
-                            if choice == st.session_state.correct_answer:
-                                st.session_state.score += 10
-                                st.success("正解です！")
-                            else:
-                                st.session_state.score = max(st.session_state.score - 10, 0)
-                                st.error("不正解です。")
-                                st.write(f"正解は {st.session_state.correct_answer}")
-                            st.session_state.quiz_answered = True
-                            st.session_state.answer_button_disabled = True
-                            st.session_state.selected_choice = choice
-                            break  # ボタンがクリックされたらループを終了
-                    else:
-                        # 既に回答済みの場合はボタンを無効化
-                        cols[col].button(str(choice), disabled=True)
+                    # ボタンの状態を管理
+                    button_disabled = st.session_state.quiz_answered
+                    if cols[col].button(str(choice), key=choice_index, disabled=button_disabled):
+                        st.session_state.selected_choice = choice
+                        if choice == st.session_state.correct_answer:
+                            st.session_state.score += 10
+                            feedback_message.success("正解です！")
+                        else:
+                            st.session_state.score = max(st.session_state.score - 10, 0)
+                            feedback_message.error("不正解です。")
+                            feedback_message.write(f"正解は {st.session_state.correct_answer}")
+                        st.session_state.quiz_answered = True
+                        st.session_state.answer_button_disabled = True
+                        break  # ボタンがクリックされたらループを終了
 
         # タイマーの表示と更新
         if not st.session_state.quiz_answered:
@@ -139,4 +135,4 @@ if tab_selection == "第一章、第二章":
             if remaining_time == 0:
                 st.session_state.quiz_answered = True
                 st.session_state.answer_button_disabled = True
-                st.write(f"タイムアップ！正解は {st.session_state.correct_answer}")
+                feedback_message.write(f"タイムアップ！正解は {st.session_state.correct_answer}")
