@@ -83,9 +83,8 @@ if tab_selection == "第一章、第二章":
     # クイズの表示と処理
     if 'selected_word' in st.session_state:
         st.write("説明")
-        st.header(st.session_state.selected_word['説明'])
-        st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
-
+        st.header(st.session_state.selected_word['説明'],f"レア度: {st.session_state.selected_word['レア度']}")
+        
         # タイマーの表示と回答選択肢の表示
         start_time = st.session_state.start_time
         elapsed_time = time.time() - start_time
