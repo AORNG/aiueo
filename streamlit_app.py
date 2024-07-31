@@ -115,8 +115,7 @@ if tab_selection == "第一章、第二章":
                                 feedback_message.success("正解です！")
                             else:
                                 st.session_state.score = max(st.session_state.score - 10, 0)
-                                feedback_message.error("不正解です。")
-                                feedback_message.header(f"正解は {st.session_state.correct_answer}")
+                                feedback_message.error("不正解です。"+f"正解は {st.session_state.correct_answer}")
                             st.session_state.quiz_answered = True
                             break  # ボタンがクリックされたらループを終了
             if st.session_state.quiz_answered:
