@@ -95,7 +95,9 @@ if tab_selection == "第一章、第二章":
 
         # 選択肢ボタンの状態管理とフィードバックの表示
         feedback_message = st.empty()  # フィードバックを表示するためのコンテナ
-        choice_buttons = []  # 選択肢ボタンのリストを保持
+        
+        # 選択肢ボタンをクリアするためのリスト
+        buttons_to_remove = []
         
         for row in range(num_rows):
             cols = st.columns(num_cols)
@@ -103,12 +105,10 @@ if tab_selection == "第一章、第二章":
                 choice_index = row * num_cols + col
                 if choice_index < num_choices:
                     choice = st.session_state.choices[choice_index]
-                    # ボタンの状態を管理
-                    button_disabled = st.session_state.quiz_answered
-                    button = cols[col].button(str(choice), key=choice_index, disabled=button_disabled)
+                    button = cols[col].button(str(choice), key=choice_index)
                     
                     # ボタンがクリックされたときの処理
-                    if button:
+                    if button and not st.session_state.quiz_answered:
                         st.session_state.selected_choice = choice
                         if choice == st.session_state.correct_answer:
                             st.session_state.score += 10
@@ -118,14 +118,13 @@ if tab_selection == "第一章、第二章":
                             feedback_message.error("不正解です。")
                             feedback_message.write(f"正解は {st.session_state.correct_answer}")
                         st.session_state.quiz_answered = True
-                        st.session_state.answer_button_disabled = True
-                        choice_buttons.append((cols[col], str(choice)))  # ボタンと選択肢を保存
+                        buttons_to_remove = [btn for btn in range(num_choices)]  # すべてのボタンを削除
                         break  # ボタンがクリックされたらループを終了
-        
-        # 選択肢ボタンをクリアするための処理
+
+        # 選択肢ボタンを削除する処理
         if st.session_state.quiz_answered:
-            for col, choice in choice_buttons:
-                col.button(str(choice), disabled=True)  # ボタンを無効化
+            for button_index in buttons_to_remove:
+                st.empty()  # 空のコンテナを表示して選択肢を削除
 
         # タイマーの表示と更新
         if not st.session_state.quiz_answered:
@@ -145,5 +144,6 @@ if tab_selection == "第一章、第二章":
             # 残り時間が0になった場合の処理
             if remaining_time == 0:
                 st.session_state.quiz_answered = True
-                st.session_state.answer_button_disabled = True
                 feedback_message.write(f"タイムアップ！正解は {st.session_state.correct_answer}")
+                # クイズ終了後に全ての選択肢を削除
+                st.empty()
