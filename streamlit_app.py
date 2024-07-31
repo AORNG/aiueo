@@ -104,7 +104,7 @@ if tab_selection == "第一章、第二章":
                 if choice_index < num_choices:
                     choice = st.session_state.choices[choice_index]
                     button_key = f"choice_{choice_index}"  # ユニークなキーを生成
-                    button_container = cols[col]  # ボタンを表示するためのコンテナ
+                    button_container = cols[col].empty()  # ボタンを表示するための空のコンテナ
                     button_containers.append((button_key, button_container))
                     
                     if not st.session_state.quiz_answered:
