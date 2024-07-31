@@ -76,6 +76,13 @@ if show_quiz:
     # 解答選択肢をトグル風に表示
     for choice in st.session_state.choices:
         st.checkbox(choice)
+    
+    # タイマーの表示と回答選択肢の表示
+        start_time = st.session_state.start_time
+        elapsed_time = time.time() - start_time
+        remaining_time = max(quiz_timeout_duration - elapsed_time, 0)
+        time_container = st.empty()  # 時間を表示するための空のコンテナ
+        time_container.title(f"残り時間: {remaining_time:.1f} 秒")
 
     # 解答ボタンの表示と処理
     if not st.session_state.answer_button_disabled:
