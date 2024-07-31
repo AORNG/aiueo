@@ -78,6 +78,10 @@ if tab_selection == "第一章、第二章":
         st.header(st.session_state.selected_word['説明'])
         st.subheader(f"レア度: {st.session_state.selected_word['レア度']}")
 
+        # スコアの表示
+        st.sidebar.header("スコア")
+        st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
+
         # タイマーの表示と回答選択肢の表示
         start_time = st.session_state.start_time
         elapsed_time = time.time() - start_time
@@ -120,6 +124,4 @@ if tab_selection == "第一章、第二章":
 if st.sidebar.button("スコアリセット"):
     st.session_state.score = 0
 
-# スコアをサイドバーに表示
-st.sidebar.header("スコア")
-st.sidebar.markdown(f"<h2 style='font-size: 2em; text-align: center;'>現在の点数: {st.session_state.score}</h2>", unsafe_allow_html=True)
+
