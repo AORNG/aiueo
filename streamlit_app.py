@@ -46,10 +46,9 @@ if st.sidebar.button("スコアリセット"):
 
 st.sidebar.write("※ダブルクリックしてください")
 
-A = ("第一章、第二章")
 # ガチャタブのコンテンツ
-if tab_selection == "A":
-    st.write("A")
+if tab_selection == "第一章、第二章":
+    st.write("顕微鏡,細胞,代謝")
 
     # クイズを表示するためのトグルボタン
     show_quiz = st.button("ガチャを引く！")
