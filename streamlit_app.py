@@ -116,7 +116,7 @@ if tab_selection == "第一章、第二章":
                             else:
                                 st.session_state.score = max(st.session_state.score - 10, 0)
                                 feedback_message.error("不正解です。")
-                                feedback_message.write(f"正解は {st.session_state.correct_answer}")
+                                feedback_message.header(f"正解は {st.session_state.correct_answer}")
                             st.session_state.quiz_answered = True
                             break  # ボタンがクリックされたらループを終了
             if st.session_state.quiz_answered:
@@ -145,7 +145,7 @@ if tab_selection == "第一章、第二章":
             # 残り時間が0になった場合の処理
             if remaining_time == 0:
                 st.session_state.quiz_answered = True
-                feedback_message.write(f"タイムアップ！正解は {st.session_state.correct_answer}")
+                feedback_message.header(f"タイムアップ！正解は {st.session_state.correct_answer}")
                 # クイズ終了後に全ての選択肢を削除
                 for button_key, button_container in button_containers:
                     button_container.empty()  # ボタンコンテナを空にする
