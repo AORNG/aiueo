@@ -144,7 +144,7 @@ if tab_selection == "第一章、第二章":
             # 残り時間が0になった場合の処理
             if remaining_time == 0:
                 st.session_state.quiz_answered = True
-                feedback_message.header("タイムアップ")
+                feedback_message.write("タイムアップ")
                 feedback_message.header(f"正解は {st.session_state.correct_answer}")
                 st.session_state.score -= 10
                 # クイズ終了後に全ての選択肢を削除
