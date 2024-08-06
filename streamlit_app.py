@@ -85,7 +85,7 @@ if tab_selection == "第一章、第二章":
 
     # クイズの表示と処理
     if 'selected_word' in st.session_state:
-        st.write("説明")
+        st.header("説明")
         st.header(st.session_state.selected_word['説明'] + f"[レア度: {st.session_state.selected_word['レア度']}]")
 
         # 選択肢の表示を列としてレイアウト
