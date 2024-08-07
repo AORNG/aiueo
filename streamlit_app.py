@@ -48,7 +48,7 @@ st.sidebar.write("※ダブルクリックしてください")
 
 # ガチャタブのコンテンツ
 if tab_selection == "第一章、第二章":
-    st.header("顕微鏡,細胞,代謝")
+    st.header("顕微鏡,生物の特徴,遺伝子とその働き")
 
     # クイズを表示するためのトグルボタン
     show_quiz = st.button("ガチャを引く！")
